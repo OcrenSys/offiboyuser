@@ -1,0 +1,27 @@
+<ion-content fullscreen class="bg-img">
+  <div class="logo ion-text-center">
+    <ion-avatar class="ion-align-items-center" style="margin: auto;">
+      <img src="./assets/imgs/logo.png"/>
+    </ion-avatar>
+  </div>
+
+  <div class="form">
+    <!--<h2 class="ion-text-center"> {{'welcome' | translate}}</h2>
+    <h3 class="ion-text-center">{{'enter_your_phone_number_to' | translate}}<br>{{'sign_in_sign_up' | translate}}</h3>-->
+    <ion-list lines="none">
+      <ion-item lines="none">
+        <ion-input type="email" placeholder="{{'email_address' | translate}}"></ion-input>
+      </ion-item>
+      <ion-item lines="none">
+        <ion-input type="password" placeholder="{{'password' | translate}}"></ion-input>
+      </ion-item>
+      <ion-item lines="none" style="background: var(--transparent) !important;">
+        <ion-label (click)="signUp()" slot="end" class="link-label"><sub style="bottom: 0; color: var(--white)">
+          {{'sign_up_message' | translate}} </sub> {{'signup' | translate}}
+        </ion-label>
+      </ion-item>
+      <ion-button size="large" shape="block" class="btn"
+                  (click)="verification()">{{'continue' | translate}}</ion-button>
+    </ion-list>
+  </div>
+</ion-content>

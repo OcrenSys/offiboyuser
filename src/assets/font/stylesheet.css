@@ -1,0 +1,24 @@
+@font-face {
+    font-family: 'Swis721 Cn BT';
+    src: url('Swiss721BT-BoldCondensed.woff2') format('woff2'),
+        url('Swiss721BT-BoldCondensed.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Swis721 Cn BT';
+    src: url('Swiss721BT-BoldCondensed.woff2') format('woff2'),
+        url('Swiss721BT-BoldCondensed.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Swis721 Cn BT';
+    src: url('Swiss721BT-RomanCondensed.woff2') format('woff2'),
+        url('Swiss721BT-RomanCondensed.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+

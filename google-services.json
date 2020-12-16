@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "661510363050",
+    "project_id": "offiboy-user",
+    "storage_bucket": "offiboy-user.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:661510363050:android:4adf625c502ef2d59abdd3",
+        "android_client_info": {
+          "package_name": "com.offiboyuser.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "661510363050-krl0i13ad3cmpfbld6fsmi56od56notu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.offiboyuser.app",
+            "certificate_hash": "8a92205e9df35b639b17f7962197027471492e46"
+          }
+        },
+        {
+          "client_id": "661510363050-c16gj9qlu2r475atcoqatfiso1fobd32.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCvTxlwlfO9rKrV3PsJEUtv79s3nvpFcrw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "661510363050-c16gj9qlu2r475atcoqatfiso1fobd32.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
