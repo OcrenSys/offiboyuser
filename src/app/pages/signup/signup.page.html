@@ -1,0 +1,37 @@
+<ion-content class="bg-img" fullscreen>
+    <div class="logo ion-text-center">
+        <ion-avatar class="ion-align-items-center" style="margin: auto;">
+            <img src="../../assets/imgs/logo.png"/>
+        </ion-avatar>
+    </div>
+
+    <form class="form">
+        <ion-list lines="none">
+            <ion-item lines="none">
+                <ion-input [(ngModel)]="form.name" [ngModelOptions]="{standalone: true}"
+                           type="text" required placeholder="{{'full_name' | translate}}"
+                ></ion-input>
+            </ion-item>
+            <!--<ion-item lines="none">
+                <ion-select mode="ios" interface="popover" placeholder="{{'select_country' | translate}}">
+                    <ion-select-option value="1">{{'Ecuador'}}</ion-select-option>
+                </ion-select>
+            </ion-item>-->
+            <ion-item lines="none">
+                <ion-input [(ngModel)]="form.email" [ngModelOptions]="{standalone: true}"
+                           type="text" placeholder="{{'email_address' | translate}}"></ion-input>
+            </ion-item>
+            <ion-item lines="none">
+                <ion-input [(ngModel)]="form.password" [ngModelOptions]="{standalone: true}"
+                           type="password" placeholder="{{'password' | translate}}"></ion-input>
+            </ion-item>
+            <ion-item lines="none" style="background: var(--transparent) !important;">
+                <ion-label (click)="signIn()" slot="end" class="link-label">
+                    <sub style="bottom: 0; color: var(--white) !important;">{{'sign_in_message' | translate}} </sub> {{'signin' | translate}}
+                </ion-label>
+            </ion-item>
+        </ion-list>
+        <ion-button size="large" shape="block" class="btn"
+                    (click)="onRegister()">{{'continue' | translate}}</ion-button>
+    </form>
+</ion-content>
