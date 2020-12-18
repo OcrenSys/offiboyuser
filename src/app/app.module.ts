@@ -18,6 +18,8 @@ import {AngularFireDatabaseModule} from "@angular/fire/database";
 import {AngularFireAuthModule} from "@angular/fire/auth";
 import {environment} from "../environments/environment";
 import {IonicStorageModule} from "@ionic/storage";
+import {NativeGeocoder} from '@ionic-native/native-geocoder/ngx';
+import {Geolocation} from '@ionic-native/geolocation/ngx';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -47,6 +49,8 @@ export function HttpLoaderFactory(http: HttpClient) {
   providers: [
     StatusBar,
     SplashScreen,
+    Geolocation,
+    NativeGeocoder,
     {provide: APP_CONFIG, useValue: BaseAppConfig},
     {provide: RouteReuseStrategy, useClass: IonicRouteStrategy}
   ],

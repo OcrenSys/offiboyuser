@@ -54,7 +54,7 @@ export class SigninPage implements OnInit, OnDestroy {
           'Access token',
           'Success Login'
         ).then(r => console.log("finalized toast..."));
-        this.navCtrl.navigateRoot(['./home']);
+        this.navCtrl.navigateRoot(['./select-shipping']);
       }, err => {
         console.log(err);
         this.notification.presentToast(
