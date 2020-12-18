@@ -11,11 +11,11 @@
     <ion-list lines="none">
       <ion-item lines="none">
         <ion-input [(ngModel)]="form.email" [ngModelOptions]="{standalone: true}"
-                   type="email" placeholder="{{'email_address' | translate}}"></ion-input>
+                   required type="email" placeholder="{{'email_address' | translate}}"></ion-input>
       </ion-item>
       <ion-item lines="none">
         <ion-input [(ngModel)]="form.password" [ngModelOptions]="{standalone: true}"
-                   type="password" placeholder="{{'password' | translate}}"></ion-input>
+                   required type="password" placeholder="{{'password' | translate}}"></ion-input>
       </ion-item>
       <ion-item lines="none" style="background: var(--transparent) !important;">
         <ion-label (click)="signUp()" slot="end" class="link-label"><sub style="bottom: 0; color: var(--white)">

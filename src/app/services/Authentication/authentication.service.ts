@@ -5,6 +5,7 @@ import {DBContextService} from "../DBContext/dbcontext.service";
 import * as firebase from 'firebase';
 import {NotificationsService} from "../Notifications";
 import {AlertController} from "@ionic/angular";
+import {Constants} from "../../utils/Constants";
 
 @Injectable({
   providedIn: 'root'
@@ -44,9 +45,9 @@ export class AuthenticationService {
           },
           (err) => {
             this.notification.presentAlert(
-              'Ocurrió un error inesperado al registrar su usuario, intentelo nuevamente, si el problema persiste comuníquese con la administración.',
-              'Registro de usuario',
-              'Error'
+              'Ocurrió un error inesperado al registrar su usuario, verifique su información e intentelo nuevamente.',
+              'Registro fallido',
+              'Offiboy'
             )
             reject(err)
           })
@@ -55,19 +56,20 @@ export class AuthenticationService {
 
   loginUser(value) {
     return new Promise<any>((resolve, reject) => {
-      this.afAuth.signInWithEmailAndPassword(value.email || value.username, value.password)
+      this.afAuth.signInWithEmailAndPassword(value.email.trim(), value.password.trim())
         .then(
           (res: any) => {
             console.log(res);
             if (res.user.emailVerified) {
-              this.db.setData("MODEL_TOKEN_FIREBASE", res.user.xa);
+              this.db.setData("MODEL_TOKEN_FIREBASE", res.user.ya);
+              resolve(res.user.ya);
               // this.loginServer(res.user.xa, resolve, reject);
             } else {
               console.log('email no verify, value: ', value);
               this.verifyEmailAlert(
                 this.message_verification,
                 'Inicio de sesión fallido',
-                'Verificación de correo'
+                'Offiboy'
               )
             }
           },
@@ -84,6 +86,25 @@ export class AuthenticationService {
           });
     });
   }
+
+  logoutUser() {
+    return new Promise((resolve, reject) => {
+      if (this.afAuth.currentUser) {
+        this.afAuth.signOut().then(() => {
+          console.log("LOG Out");
+          this.db.setData(Constants.STORAGE_TOKEN, null);
+          this.db.setData(Constants.STORAGE_TOKEN_FIREBASE, null);
+          this.db.setData(Constants.STORAGE_AUTH_TOKEN_JWT, null);
+
+          this.db.setData(Constants.STORAGE_USER_DATA, null);
+          resolve();
+        }).catch((error) => {
+          reject();
+        });
+      }
+    })
+  }
+
 
   async verifyEmailAlert(_message: string, _subheader?: string, _header?: string) {
     if (event) {
@@ -116,5 +137,10 @@ export class AuthenticationService {
   sendEmailVerification() {
     const auth = firebase.auth();
     return auth.currentUser.sendEmailVerification();
+  }
+
+  resetPassword(email: string) {
+    const auth = firebase.auth();
+    return auth.sendPasswordResetEmail(email);
   }
 }

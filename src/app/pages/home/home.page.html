@@ -1,0 +1,294 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>
+      <div class="d-flex tab_btn">
+        <ion-segment mode="md" [(ngModel)]="home_tab">
+          <ion-segment-button value="list_view">
+            {{'list_view' | translate}}
+          </ion-segment-button>
+          <ion-segment-button value="map_view">
+            {{'map_view' | translate}}
+          </ion-segment-button>
+        </ion-segment>
+        <ion-icon class="zmdi zmdi-search end ion-text-end"></ion-icon>
+      </div>
+    </ion-title>
+  </ion-toolbar>
+  <div class="filter">
+    <div class="scroll_container">
+      <h2 class="ion-text-center" [ngClass]="faqExpand1 ? 'active' : '' " (click)="faqExpandToggle1()">In Transist</h2>
+      <h2 class="ion-text-center" [ngClass]="faqExpand2 ? 'active' : '' " (click)="faqExpandToggle2()">Stopped</h2>
+      <h2 class="ion-text-center" [ngClass]="faqExpand3 ? 'active' : '' " (click)="faqExpandToggle3()">Idle</h2>
+      <h2 class="ion-text-center" [ngClass]="faqExpand4 ? 'active' : '' " (click)="faqExpandToggle4()">In Garange</h2>
+      <h2 class="ion-text-center" [ngClass]="faqExpand5 ? 'active' : '' " (click)="faqExpandToggle5()">In Transist</h2>
+      <h2 class="ion-text-center" [ngClass]="faqExpand6 ? 'active' : '' " (click)="faqExpandToggle6()">Stopped</h2>
+      <h2 class="ion-text-center" [ngClass]="faqExpand7 ? 'active' : '' " (click)="faqExpandToggle7()">Idle</h2>
+      <h2 class="ion-text-center" [ngClass]="faqExpand8 ? 'active' : '' " (click)="faqExpandToggle8()">In Garange</h2>
+    </div>
+  </div>
+</ion-header>
+
+<ion-content class="bg_color" fullscreen>
+  <div class="tab_container" [ngSwitch]="home_tab">
+    <!-- List View sction start -->
+    <ion-list lines="none" *ngSwitchCase="'list_view'">
+      <ion-item (click)="trip_info()">
+        <div class="item_inner">
+          <div class="item_header d-flex">
+            <div class="img_box center_img">
+              <img src="assets/imgs/truck1.png" class="crop_img">
+            </div>
+
+            <h2 class="d-flex">
+              GTY 1024 <sub> SCANIA R730</sub><span class="end">In Transist</span>
+            </h2>
+          </div>
+          <div class="item_containt">
+            <ion-row>
+              <ion-col size="7">
+                <h3>{{'task' | translate}}</h3>
+                <h4>Chemical Delivery</h4>
+              </ion-col>
+              <ion-col size="5">
+                <h3>{{'departed' | translate}}</h3>
+                <h4>20 June, 02:05pm</h4>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col size="10">
+                <h3>{{'current_location' | translate}}</h3>
+                <h4>1141, Hemiltone tower, Newyork, USA</h4>
+              </ion-col>
+              <ion-col size="2" class="d-flex">
+                <ion-icon class="zmdi zmdi-map end"></ion-icon>
+              </ion-col>
+            </ion-row>
+          </div>
+        </div>
+      </ion-item>
+      <ion-item (click)="trip_info()">
+        <div class="item_inner">
+          <div class="item_header d-flex">
+            <div class="img_box center_img">
+              <img src="assets/imgs/truck1.png" class="crop_img">
+            </div>
+
+            <h2 class="d-flex">
+              GTY 1024 <sub> SCANIA R730</sub><span class="end">In Transist</span>
+            </h2>
+          </div>
+          <div class="item_containt">
+            <ion-row>
+              <ion-col size="7">
+                <h3>{{'task' | translate}}</h3>
+                <h4>Chemical Delivery</h4>
+              </ion-col>
+              <ion-col size="5">
+                <h3>{{'departed' | translate}}</h3>
+                <h4>20 June, 02:05pm</h4>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col size="10">
+                <h3>{{'current_location' | translate}}</h3>
+                <h4>1141, Hemiltone tower, Newyork, USA</h4>
+              </ion-col>
+              <ion-col size="2" class="d-flex">
+                <ion-icon class="zmdi zmdi-map end"></ion-icon>
+              </ion-col>
+            </ion-row>
+          </div>
+        </div>
+      </ion-item>
+      <ion-item (click)="trip_info()">
+        <div class="item_inner">
+          <div class="item_header d-flex">
+            <div class="img_box center_img">
+              <img src="assets/imgs/truck1.png" class="crop_img">
+            </div>
+
+            <h2 class="d-flex">
+              GTY 1024 <sub> SCANIA R730</sub><span class="end">In Transist</span>
+            </h2>
+          </div>
+          <div class="item_containt">
+            <ion-row>
+              <ion-col size="7">
+                <h3>{{'task' | translate}}</h3>
+                <h4>Chemical Delivery</h4>
+              </ion-col>
+              <ion-col size="5">
+                <h3>{{'departed' | translate}}</h3>
+                <h4>20 June, 02:05pm</h4>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col size="10">
+                <h3>{{'current_location' | translate}}</h3>
+                <h4>1141, Hemiltone tower, Newyork, USA</h4>
+              </ion-col>
+              <ion-col size="2" class="d-flex">
+                <ion-icon class="zmdi zmdi-map end"></ion-icon>
+              </ion-col>
+            </ion-row>
+          </div>
+        </div>
+      </ion-item>
+      <ion-item (click)="trip_info()">
+        <div class="item_inner">
+          <div class="item_header d-flex">
+            <div class="img_box center_img">
+              <img src="assets/imgs/truck1.png" class="crop_img">
+            </div>
+
+            <h2 class="d-flex">
+              GTY 1024 <sub> SCANIA R730</sub><span class="end">In Transist</span>
+            </h2>
+          </div>
+          <div class="item_containt">
+            <ion-row>
+              <ion-col size="7">
+                <h3>{{'task' | translate}}</h3>
+                <h4>Chemical Delivery</h4>
+              </ion-col>
+              <ion-col size="5">
+                <h3>{{'departed' | translate}}</h3>
+                <h4>20 June, 02:05pm</h4>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col size="10">
+                <h3>{{'current_location' | translate}}</h3>
+                <h4>1141, Hemiltone tower, Newyork, USA</h4>
+              </ion-col>
+              <ion-col size="2" class="d-flex">
+                <ion-icon class="zmdi zmdi-map end"></ion-icon>
+              </ion-col>
+            </ion-row>
+          </div>
+        </div>
+      </ion-item>
+      <ion-item (click)="trip_info()">
+        <div class="item_inner">
+          <div class="item_header d-flex">
+            <div class="img_box center_img">
+              <img src="assets/imgs/truck1.png" class="crop_img">
+            </div>
+
+            <h2 class="d-flex">
+              GTY 1024 <sub> SCANIA R730</sub><span class="end">In Transist</span>
+            </h2>
+          </div>
+          <div class="item_containt">
+            <ion-row>
+              <ion-col size="7">
+                <h3>{{'task' | translate}}</h3>
+                <h4>Chemical Delivery</h4>
+              </ion-col>
+              <ion-col size="5">
+                <h3>{{'departed' | translate}}</h3>
+                <h4>20 June, 02:05pm</h4>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col size="10">
+                <h3>{{'current_location' | translate}}</h3>
+                <h4>1141, Hemiltone tower, Newyork, USA</h4>
+              </ion-col>
+              <ion-col size="2" class="d-flex">
+                <ion-icon class="zmdi zmdi-map end"></ion-icon>
+              </ion-col>
+            </ion-row>
+          </div>
+        </div>
+      </ion-item>
+    </ion-list>
+    <!-- List View sction end -->
+
+
+    <!-- Map View sction start -->
+    <div class="map_view" *ngSwitchCase="'map_view'">
+      <div class="map center_img">
+        <img src="assets/imgs/map.png" class="crop_img">
+      </div>
+
+      <div class="my_location" style="top: 42%; right: 40%;">
+        <ion-icon class=""></ion-icon>
+      </div>
+      <div class="truck_container" [ngClass]="fabAction ? 'disabled' : ''">
+        <div class="truck" style="top: 26%; right: 20%;" (click)="toggleFab()" [ngClass]="fabAction ? 'active' : ''">
+          <div class="truck_img center_img">
+            <img src="assets/imgs/truck1.png" class="crop_img">
+          </div>
+        </div>
+        <div class="truck" style="top: 31%; right: 53%;" (click)="toggleFab()" [ngClass]="fabAction ? 'active' : ''">
+          <div class="truck_img center_img">
+            <img src="assets/imgs/truck1.png" class="crop_img">
+          </div>
+        </div>
+        <div class="truck" style="top: 39%; right: 63%;" (click)="toggleFab()" [ngClass]="fabAction ? 'active' : ''">
+          <div class="truck_img center_img">
+            <img src="assets/imgs/truck1.png" class="crop_img">
+          </div>
+        </div>
+        <div class="truck" style="top: 60%; right: 27%;" (click)="toggleFab()" [ngClass]="fabAction ? 'active' : ''">
+          <div class="truck_img center_img">
+            <img src="assets/imgs/truck1.png" class="crop_img">
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Map View sction end -->
+  </div>
+
+
+  <ion-fab horizontal="end" vertical="bottom" slot="fixed">
+    <ion-fab-button>
+      <ion-icon class="zmdi zmdi-plus end" (click)="create_trip()"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+</ion-content>
+
+
+<ion-footer class="ion-no-border">
+  <ion-list lines="none" [ngClass]="fabAction ? 'active' : ''">
+    <ion-item (click)="trip_info()">
+      <div class="item_inner">
+        <div class="item_header d-flex">
+          <div class="img_box center_img">
+            <img src="assets/imgs/truck1.png" class="crop_img">
+          </div>
+
+          <h2 class="d-flex">
+            GTY 1024 <sub> SCANIA R730</sub><span class="end">In Transist</span>
+          </h2>
+        </div>
+        <div class="item_containt">
+          <ion-row>
+            <ion-col size="7">
+              <h3>{{'task' | translate}}</h3>
+              <h4>Chemical Delivery</h4>
+            </ion-col>
+            <ion-col size="5">
+              <h3>{{'departed' | translate}}</h3>
+              <h4>20 June, 02:05pm</h4>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col size="10">
+              <h3>{{'current_location' | translate}}</h3>
+              <h4>1141, Hemiltone tower, Newyork, USA</h4>
+            </ion-col>
+            <ion-col size="2" class="d-flex">
+              <ion-icon class="zmdi zmdi-info end"></ion-icon>
+            </ion-col>
+          </ion-row>
+        </div>
+      </div>
+    </ion-item>
+  </ion-list>
+</ion-footer>

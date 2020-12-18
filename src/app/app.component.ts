@@ -7,6 +7,7 @@ import {APP_CONFIG, AppConfig} from "./app.config";
 import {TranslateService} from "@ngx-translate/core";
 import {Constants} from "./utils/Constants";
 import {MyEventsService} from "./services/MyEvents/my-events.service";
+import {AuthenticationService} from "./services/Authentication/authentication.service";
 
 @Component({
   selector: 'app-root',
@@ -17,35 +18,26 @@ export class AppComponent implements OnInit {
   public selectedIndex = 0;
   public appPages = [
     {
-      title: 'Inbox',
-      url: '/folder/Inbox',
-      icon: 'mail'
-    },
-    {
-      title: 'Outbox',
-      url: '/folder/Outbox',
-      icon: 'paper-plane'
-    },
-    {
-      title: 'Favorites',
-      url: '/folder/Favorites',
+      title: 'Home',
+      url: '/home',
       icon: 'heart'
     },
     {
-      title: 'Archived',
-      url: '/folder/Archived',
-      icon: 'archive'
+      title: 'Login',
+      url: '/signin',
+      icon: 'mail'
     },
     {
-      title: 'Trash',
-      url: '/folder/Trash',
-      icon: 'trash'
+      title: 'Register',
+      url: '/signup',
+      icon: 'paper-plane'
     },
     {
-      title: 'Spam',
-      url: '/folder/Spam',
-      icon: 'warning'
-    }
+      title: 'Salir',
+      url: 'logout',
+      icon: 'paper-plane'
+    },
+
   ];
   public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
 
@@ -58,6 +50,7 @@ export class AppComponent implements OnInit {
     private statusBar: StatusBar,
     private navCtrl: NavController,
     private translate: TranslateService,
+    private authService: AuthenticationService,
     private myEvent: MyEventsService
   ) {
     this.initializeApp();
@@ -102,5 +95,22 @@ export class AppComponent implements OnInit {
     if (path !== undefined) {
       this.selectedIndex = this.appPages.findIndex(page => page.title.toLowerCase() === path.toLowerCase());
     }
+  }
+
+  openPage(page) {
+    if (page.url === "logout")
+      this.logout();
+    else
+      this.navCtrl.navigateRoot([page.url], {});
+  }
+
+  logout() {
+    this.authService.logoutUser()
+      .then(() => {
+        this.navCtrl.navigateRoot("", {})
+          .then(() => {
+            // this.isAthenticated = false;
+          });
+      });
   }
 }

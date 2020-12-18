@@ -5,25 +5,32 @@
         </ion-avatar>
     </div>
 
-    <form class="form">
+    <form #f class="form" [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
         <ion-list lines="none">
-            <ion-item lines="none">
-                <ion-input [(ngModel)]="form.name" [ngModelOptions]="{standalone: true}"
+            <ion-item lines="none"
+                      [ngClass]="{'danger': (this.hasError.error && this.hasError.name === 'name')}">
+                <ion-input formControlName="name"
+                           [ngClass]="{'danger': (this.hasError.error && this.hasError.name === 'name')}"
                            type="text" required placeholder="{{'full_name' | translate}}"
                 ></ion-input>
             </ion-item>
-            <!--<ion-item lines="none">
-                <ion-select mode="ios" interface="popover" placeholder="{{'select_country' | translate}}">
-                    <ion-select-option value="1">{{'Ecuador'}}</ion-select-option>
-                </ion-select>
-            </ion-item>-->
-            <ion-item lines="none">
-                <ion-input [(ngModel)]="form.email" [ngModelOptions]="{standalone: true}"
+            <ion-item lines="none"
+                      [ngClass]="{'danger': (this.hasError.error && this.hasError.name === 'email')}">
+                <ion-input formControlName="email"
+                           [ngClass]="{'danger': (this.hasError.error && this.hasError.name === 'email')}"
                            type="text" placeholder="{{'email_address' | translate}}"></ion-input>
             </ion-item>
-            <ion-item lines="none">
-                <ion-input [(ngModel)]="form.password" [ngModelOptions]="{standalone: true}"
+            <ion-item lines="none"
+                      [ngClass]="{'danger': (this.hasError.error && this.hasError.name === 'password')}">
+                <ion-input formControlName="password"
+                           [ngClass]="{'danger': (this.hasError.error && this.hasError.name === 'password')}"
                            type="password" placeholder="{{'password' | translate}}"></ion-input>
+            </ion-item>
+            <ion-item lines="none"
+                      [ngClass]="{'danger': (this.hasError.error && this.hasError.name === 'password')}">
+                <ion-input formControlName="password_confirm"
+                           [ngClass]="{'danger': (this.hasError.error && this.hasError.name === 'password')}"
+                           type="password" placeholder="{{'confirm_password' | translate}}"></ion-input>
             </ion-item>
             <ion-item lines="none" style="background: var(--transparent) !important;">
                 <ion-label (click)="signIn()" slot="end" class="link-label">
@@ -31,7 +38,6 @@
                 </ion-label>
             </ion-item>
         </ion-list>
-        <ion-button size="large" shape="block" class="btn"
-                    (click)="onRegister()">{{'continue' | translate}}</ion-button>
+        <ion-button size="large" shape="block" class="btn" type="submit">{{'continue' | translate}}</ion-button>
     </form>
 </ion-content>
