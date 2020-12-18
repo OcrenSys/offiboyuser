@@ -1,0 +1,88 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+        <ion-title>
+            <div class="d-flex tab_btn">
+                Envío
+            </div>
+        </ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content class="bg_color" fullscreen>
+    <div class="tab_container">
+        <!-- List View sction start -->
+        <ion-list lines="none">
+            <ion-item (click)="selectType(TYPE_LOCAL)">
+                <div class="item_inner">
+                    <!--<div class="item_header d-flex">
+                        <div class="img_box center_img">
+                            <img src="assets/imgs/truck1.png" class="crop_img">
+                        </div>
+
+                        <h2 class="d-flex">
+                            GTY 1024 <sub> SCANIA R730</sub><span class="end">In Transist</span>
+                        </h2>
+                    </div>-->
+                    <div class="item_containt">
+                        <ion-row>
+                            <ion-col size="7">
+                                <h3>{{'Tipo de envio'}}</h3>
+                                <h2 style="color: var(--primary) !important;">Local</h2>
+                            </ion-col>
+                            <ion-col size="5">
+                                <h3>{{'departed' | translate}}</h3>
+                                <h4>20 June, 02:05pm</h4>
+                            </ion-col>
+                        </ion-row>
+                        <ion-row>
+                            <ion-col size="10">
+                                <h3>{{'current_location' | translate}}</h3>
+                                <h4>1141, Hemiltone tower, Newyork, USA</h4>
+                            </ion-col>
+                            <ion-col size="2" class="d-flex">
+                                <ion-icon class="zmdi zmdi-chevron-right end"></ion-icon>
+                            </ion-col>
+                        </ion-row>
+                    </div>
+                </div>
+            </ion-item>
+            <ion-item (click)="selectType(TYPE_PROVINCE)">
+                <div class="item_inner">
+                    <!--<div class="item_header d-flex">
+                        <div class="img_box center_img">
+                            <img src="assets/imgs/truck1.png" class="crop_img">
+                        </div>
+
+                        <h2 class="d-flex">
+                            GTY 1024 <sub> SCANIA R730</sub><span class="end">In Transist</span>
+                        </h2>
+                    </div>-->
+                    <div class="item_containt">
+                        <ion-row>
+                            <ion-col size="7">
+                                <h3>{{'Tipo de envio'}}</h3>
+                                <h2 style="color: var(--primary) !important;">Inter provincial</h2>
+                            </ion-col>
+                            <ion-col size="5">
+                                <h3>{{'departed' | translate}}</h3>
+                                <h4>20 June, 02:05pm</h4>
+                            </ion-col>
+                        </ion-row>
+                        <ion-row>
+                            <ion-col size="10">
+                                <h3>{{'current_location' | translate}}</h3>
+                                <h4>1141, Hemiltone tower, Newyork, USA</h4>
+                            </ion-col>
+                            <ion-col size="2" class="d-flex">
+                                <ion-icon class="zmdi zmdi-chevron-right end"></ion-icon>
+                            </ion-col>
+                        </ion-row>
+                    </div>
+                </div>
+            </ion-item>
+        </ion-list>
+    </div>
+</ion-content>

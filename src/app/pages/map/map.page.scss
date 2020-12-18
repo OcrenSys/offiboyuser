@@ -1,0 +1,41 @@
+#map {
+  //background: #1b85ab;
+  width: 100%;
+  height: calc((100vh - 120px)); //80vh;
+  opacity: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.map-full-height {
+  height: 100vh !important;
+}
+
+#marker {
+  position: absolute;
+  /*url of the marker*/
+  background: url(../../../assets/imgs/pin3.png) no-repeat;
+  background-repeat: no-repeat;
+  -ms-background-size: contain;
+  -o-background-size: contain;
+  -moz-background-size: contain;
+  -webkit-background-size: contain; // background-position: 53% 89%;
+  -ms-background-size: contain;
+  background-size: contain;
+  background-position-y: 90%;
+
+  /*center the marker*/
+  top: calc(50% - 50px);
+  left: 50%;
+
+  z-index: 999;
+  /*fix offset when needed*/
+  margin-left: -26px;
+  margin-top: -51px;
+  height: 45px;
+  width: 45px;
+  //color: var(--primary);
+
+  cursor: pointer;
+}

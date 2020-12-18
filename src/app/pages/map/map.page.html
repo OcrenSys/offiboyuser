@@ -1,0 +1,23 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>map</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div #map id="map" class="map-full-height" [hidden]="hideMap">
+  </div>
+  <!--<div id="marker">
+&lt;!&ndash;    <i class="zmdi zmdi-pin"></i>&ndash;&gt;
+  </div>-->
+
+  <ion-fab horizontal="end" vertical="bottom" slot="fixed">
+    <ion-fab-button size="small">
+      <ion-icon class="zmdi zmdi-gps-dot" (click)="getCurrentPosition()"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>
+
+<ion-footer>
+  <ion-button expand="full" fill="solid" (click)="addMarker()">Agregar ubicacion</ion-button>
+</ion-footer>
