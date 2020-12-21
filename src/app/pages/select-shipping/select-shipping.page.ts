@@ -25,7 +25,7 @@ export class SelectShippingPage implements OnInit {
         this.navCtrl.navigateForward(['./map']);
         break;
       case this.TYPE_PROVINCE:
-        this.navCtrl.navigateForward(['./map']);
+        // this.navCtrl.navigateForward(['./map']);
         break;
     }
   }

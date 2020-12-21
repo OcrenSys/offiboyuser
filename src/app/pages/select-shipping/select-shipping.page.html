@@ -4,7 +4,7 @@
             <ion-menu-button></ion-menu-button>
         </ion-buttons>
         <ion-title>
-            <div class="d-flex tab_btn">
+            <div class="tab_btn_select ion-text-center">
                 Envío
             </div>
         </ion-title>
@@ -14,7 +14,7 @@
 <ion-content class="bg_color" fullscreen>
     <div class="tab_container">
         <!-- List View sction start -->
-        <ion-list lines="none">
+        <ion-list class="ion-margin-top" lines="none">
             <ion-item (click)="selectType(TYPE_LOCAL)">
                 <div class="item_inner">
                     <!--<div class="item_header d-flex">
@@ -49,7 +49,7 @@
                     </div>
                 </div>
             </ion-item>
-            <ion-item (click)="selectType(TYPE_PROVINCE)">
+            <ion-item>
                 <div class="item_inner">
                     <!--<div class="item_header d-flex">
                         <div class="img_box center_img">

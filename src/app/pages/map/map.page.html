@@ -1,6 +1,9 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>map</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button text="" icon="chevron-back-sharp"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Mapa</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -12,12 +15,12 @@
   </div>-->
 
   <ion-fab horizontal="end" vertical="bottom" slot="fixed">
-    <ion-fab-button size="small">
+    <ion-fab-button size="small" color="secondary">
       <ion-icon class="zmdi zmdi-gps-dot" (click)="getCurrentPosition()"></ion-icon>
     </ion-fab-button>
   </ion-fab>
 </ion-content>
 
 <ion-footer>
-  <ion-button expand="full" fill="solid" (click)="addMarker()">Agregar ubicacion</ion-button>
+  <ion-button color="secondary" expand="full" fill="solid" (click)="continue()">{{continue_label}}</ion-button>
 </ion-footer>

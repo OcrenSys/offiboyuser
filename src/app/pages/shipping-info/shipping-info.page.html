@@ -1,0 +1,157 @@
+<ion-header class="bg-transparent">
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-back-button text="" icon="chevron-back-sharp"></ion-back-button>
+        </ion-buttons>
+        <ion-title></ion-title>
+    </ion-toolbar>
+</ion-header>
+
+
+<ion-content fullscreen>
+   <!-- <div class="map center_img">
+        <img [src]="url_image_map" class="">
+    </div>-->
+    <div #map id="map" class="map-medium-height" [hidden]="hideMap">
+    </div>
+    <!--<div class="location">
+      <ion-icon class="zmdi zmdi-circle start_location" style="top: 27%; left: 14%;"></ion-icon>
+      <ion-icon class="zmdi zmdi-circle end_location" style="top: 11%; right: 15%;"></ion-icon>
+    </div>-->
+
+    <!--<div class="truck" style="top: 15%; right: 51%;">
+        <div class="truck_img center_img">
+            <img src="assets/imgs/truck1.png" class="crop_img">
+        </div>
+    </div>-->
+</ion-content>
+
+<ion-footer style="top: 25vh" class="ion-no-border">
+    <ion-card>
+        <div class="card_header">
+            <div class="info d-flex">
+                <div class="img_box center_img">
+                    <img src="assets/imgs/truck1.png" class="crop_img">
+                </div>
+                <div class="truck_details">
+                    <h2 class="d-flex">
+                        GTY 1024<span class="end">In Transist</span>
+                    </h2>
+                    <h3>{{googleMapsService.displayRoute.directionsDisplay || ""}}</h3>
+                </div>
+            </div>
+            <ion-segment mode="md" lines="none" [(ngModel)]="truck_info">
+                <ion-segment-button value="about_trip" text-start>
+                    {{'about_trip' | translate}}
+                </ion-segment-button>
+                <ion-segment-button value="vehicle_info" text-start>
+                    {{'vehicle_info' | translate}}
+                </ion-segment-button>
+            </ion-segment>
+        </div>
+        <div class="tab_container" [ngSwitch]="truck_info">
+            <ion-list lines="none" *ngSwitchCase="'about_trip'">
+                <ion-item>
+                    <div class="item_inner">
+                        <ion-row>
+                            <ion-col size="7">
+                                <h3>{{'Distancia'}}</h3>
+                                <h4>{{googleMapsService.displayRoute.distance}}</h4>
+                            </ion-col>
+                            <ion-col size="5">
+                                <h3>{{'Tiempo Aproximado'}}</h3>
+                                <h4>{{googleMapsService.displayRoute.time}}</h4>
+                            </ion-col>
+                        </ion-row>
+                    </div>
+                </ion-item>
+                <div class="trip_info">
+                    <ion-item class="trip_start">
+                        <div class="item_inner d-flex">
+                            <ion-icon class="zmdi zmdi-circle ion-text-start"></ion-icon>
+                            <div class="label">
+                                <h3>{{'Punto de origen'}}</h3>
+                                <h4>{{ start_location?.displayRoute || ""}}</h4>
+                            </div>
+                        </div>
+                    </ion-item>
+                    <!--<ion-item class="current_location">
+                        <div class="item_inner d-flex">
+                            <ion-icon class="zmdi zmdi-pin ion-text-start"></ion-icon>
+                            <div class="label">
+                                <h3>{{'current_location' | translate}}</h3>
+                                <h4>1141, Hemiltone tower, New York, USA</h4>
+                            </div>
+                        </div>
+                    </ion-item>-->
+                    <ion-item class="trip_end">
+                        <div class="item_inner d-flex">
+                            <ion-icon class="zmdi zmdi-circle ion-text-start"></ion-icon>
+                            <div class="label">
+                                <h3>{{'Punto de destino'}}</h3>
+                                <h4>{{ end_location?.displayRoute || ""}}</h4>
+                            </div>
+                        </div>
+                    </ion-item>
+                </div>
+            </ion-list>
+
+
+            <ion-list lines="none" *ngSwitchCase="'vehicle_info'">
+                <ion-item>
+                    <div class="item_inner">
+                        <ion-row>
+                            <ion-col size="7">
+                                <h3>{{'vehicle_model' | translate}}</h3>
+                                <h4>SCANIA R730</h4>
+                            </ion-col>
+                            <ion-col size="5">
+                                <h3>{{'vehicle_number' | translate}}</h3>
+                                <h4>GTY 1024</h4>
+                            </ion-col>
+                        </ion-row>
+                    </div>
+                </ion-item>
+                <ion-item>
+                    <div class="item_inner">
+                        <ion-row>
+                            <ion-col size="7">
+                                <h3>{{'max_load_capavity' | translate}}</h3>
+                                <h4>16.2 tonnes</h4>
+                            </ion-col>
+                            <ion-col size="5">
+                                <h3><strong>{{'edit_vehicle_info' | translate}}</strong></h3>
+                            </ion-col>
+                        </ion-row>
+                    </div>
+                </ion-item>
+                <ion-item>
+                    <div class="item_inner">
+                        <ion-row>
+                            <ion-col size="10">
+                                <h3>{{'driver' | translate}}</h3>
+                                <h4>George Jackson (+1 987 654 3210)</h4>
+                            </ion-col>
+                            <ion-col size="2" class="d-flex">
+                                <ion-icon class="zmdi zmdi-phone end"></ion-icon>
+                            </ion-col>
+                        </ion-row>
+                    </div>
+                </ion-item>
+                <ion-item>
+                    <div class="item_inner">
+                        <ion-row>
+                            <ion-col size="10">
+                                <h3>{{'helper' | translate}}</h3>
+                                <h4>Tonny Willamson (+1 987 654 3210)</h4>
+                            </ion-col>
+                            <ion-col size="2" class="d-flex">
+                                <ion-icon class="zmdi zmdi-phone end"></ion-icon>
+                            </ion-col>
+                        </ion-row>
+                    </div>
+                </ion-item>
+            </ion-list>
+        </div>
+    </ion-card>
+</ion-footer>
