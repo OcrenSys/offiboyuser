@@ -10,12 +10,13 @@ declare var google;
   styleUrls: ['./shipping-info.page.scss'],
 })
 export class ShippingInfoPage implements OnInit {
-  @ViewChild('map', {static: true}) mapElement: ElementRef;
+  @ViewChild('mapInfo', {static: true}) mapElement: ElementRef;
 
   truck_info: string = "about_trip";
   url_image_map: string = "";
   isMapLoading: boolean = false;
   hideMap = true;
+  map: any = null;
 
   start_location = {
     latitude: null,
@@ -38,35 +39,38 @@ export class ShippingInfoPage implements OnInit {
 
   ngOnInit() {
     if (this.platform.is('cordova')) {
-      this.isMapLoading = true;
       this.googleMapsService.initMapStatic(this.mapElement.nativeElement)
         .then((_map: any) => {
-          this.isMapLoading = false;
-          this.hideMap = false;
-          this.googleMapsService.map.panTo(_map.getCenter());
-
-          this.googleMapsService.marker.setMap(null);
-
+          this.map = _map;
           const origin = this.googleMapsService.markers[0].getPosition();
           const destination = this.googleMapsService.markers[1].getPosition();
-          this.googleMapsService.settingDisplayRoute(origin, destination)
 
-          this.googleMapsService.markers[0].setMap(this.googleMapsService.map)
-          this.googleMapsService.markers[1].setMap(this.googleMapsService.map)
+          this.googleMapsService.markers[0].setMap(this.map)
+          this.googleMapsService.markers[1].setMap(this.map)
+          this.googleMapsService.marker.setMap(null);
 
           this.start_location = {
             latitude: origin.lat(),
             longitude: origin.lng(),
             displayRoute: ""
           }
-          this.googleMapsService.getNativeGeocoder(this.start_location)
-
           this.end_location = {
             latitude: destination.lat(),
             longitude: destination.lng(),
             displayRoute: ""
           }
+
+          this.googleMapsService.settingDisplayRoute(origin, destination, this.map)
+          this.googleMapsService.getNativeGeocoder(this.start_location)
           this.googleMapsService.getNativeGeocoder(this.end_location)
+
+          this.hideMap = false;
+        })
+        .finally(() => {
+          setTimeout(() => {
+            console.log('finally load map');
+            this.map.panTo(this.map.getCenter())
+          }, 2000)
         })
     }
   }

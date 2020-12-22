@@ -16,7 +16,7 @@ export class GoogleMapsService {
   mapElement: any;
 
   zoomMap: number = 16;
-  latLng: any;
+  latLng: any = null;
   latitude: any;
   longitude: any;
   accuracy: any = 0;
@@ -33,8 +33,8 @@ export class GoogleMapsService {
   directionsService: any = null;
   directionsDisplay: any = null;
 
-  map: any;
-  marker: any;
+  map: any = null;
+  marker: any = null;
   markers: any = []
 
   constructor(
@@ -73,7 +73,7 @@ export class GoogleMapsService {
   }
 
   loadStaticMap(data: any) {
-    console.log("loadStaticMap(data)...\n", data);
+    // console.log("loadStaticMap(data)...\n", data);
     this.accuracy = data.accuracy;
     this.latitude = data.latitude;
     this.longitude = data.longitude;
@@ -98,9 +98,6 @@ export class GoogleMapsService {
 
     this.map = new google.maps.Map(this.mapElement, mapOptions);
     let infowindow = new google.maps.InfoWindow();
-
-    this.directionsDisplay.setMap(this.map);
-    this.directionsDisplay.setOptions({suppressMarkers: true});
 
     const icon = {
       url: "./assets/imgs/pin3.png", // url
@@ -184,8 +181,10 @@ export class GoogleMapsService {
       });
   }
 
-  settingDisplayRoute(origin, destination) {
-    const t = this;
+  settingDisplayRoute(origin, destination, map?: any) {
+    this.directionsDisplay.setMap(map);
+    this.directionsDisplay.setOptions({suppressMarkers: true});
+
     this.directionsService.route({
       origin: origin,
       destination: destination,

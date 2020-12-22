@@ -4,7 +4,7 @@ ion-header ion-toolbar {
   top: 0;
   left: 0;
 }
-#map {
+#mapInfo {
   //background: #1b85ab;
   width: 100%;
   //height: calc((100vh - 120px)); //80vh;
@@ -280,15 +280,13 @@ ion-footer {
 
           &.trip_end {
             ion-icon {
-              color: var(--green_color);
-
+              color: var(--red_color);
             }
           }
 
           &.trip_start {
             ion-icon {
-              color: var(--red_color);
-
+              color: var(--green_color);
             }
           }
 

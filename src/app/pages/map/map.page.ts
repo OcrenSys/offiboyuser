@@ -17,10 +17,15 @@ export class MapPage implements OnInit {
   marker_destination: any = null
 
   initialized: boolean = false;
+  edition_mode: boolean = false;
   hideMap: boolean = true;
   isMapLoading: boolean = false;
   continue_label: string = "";
   option: any = MAP_STEP.ORIGIN
+
+  map: any = null;
+  // position_origin: any = null;
+  // position_destination: any = null;
 
   constructor(
     private platform: Platform,
@@ -34,22 +39,20 @@ export class MapPage implements OnInit {
   ngOnInit() {
     this.initialized = true;
     if (this.platform.is('cordova')) {
-      this.isMapLoading = true;
-
       this.continue_label = "Lugar de origen";
       if (this.googleMapsService.directionsDisplay != null)
         this.resetMap()
-
 
       this.googleMapsService.initMapStatic(this.mapElement.nativeElement)
         .then((_map: any) => {
           // this.autocompleteService = new google.maps.places.AutocompleteService();
           // this.placesService = new google.maps.places.PlacesService(loaded_map);
           // this.searchDisabled = false;
-
-          this.isMapLoading = false;
+          this.map = _map;
           this.hideMap = false;
-          this.googleMapsService.map.panTo(_map.getCenter());
+        })
+        .finally(() => {
+          this.map.panTo(this.map.getCenter());
         })
     }
   }
@@ -57,28 +60,33 @@ export class MapPage implements OnInit {
   ionViewWillEnter() {
     if (this.initialized) {
       if (this.googleMapsService.markers.length) {
-        const position = this.googleMapsService.markers[0].getPosition();
-        console.log('posicion del marcador 1', position);
-        this.googleMapsService.marker.setMap(this.googleMapsService.map);
-        this.googleMapsService.marker.setPosition(position);
-        this.googleMapsService.map.panTo(this.googleMapsService.markers[0].getPosition());
+        this.edition_mode = true;
+        this.hideMap = false;
+        this.marker_origin = this.googleMapsService.markers[0];
+        this.marker_destination = this.googleMapsService.markers[1];
 
-        this.marker_origin = new google.maps.Marker({
-          position: this.googleMapsService.markers[0].getPosition(),
-          map: this.googleMapsService.map,
-          title: '',
-          // icon: icon
-        })
-        this.marker_destination = new google.maps.Marker({
-          position: this.googleMapsService.markers[1].getPosition(),
-          map: this.googleMapsService.map,
-          title: '',
-          // icon: icon
-        })
+        this.googleMapsService.markers[0].setMap(null);
+        this.googleMapsService.markers[1].setMap(null);
 
-        // this.resetMap();
+        this.centerMap(this.marker_origin.getPosition().lat(), this.marker_origin.getPosition().lng())
+
+        this.marker_origin.setMap(null)
+        this.marker_destination.setMap(null)
+        this.googleMapsService.markers = [];
+
+        this.map.panTo(this.map.getCenter());
+        this.googleMapsService.marker.setMap(this.map);
+        this.googleMapsService.marker.setPosition(this.map.getCenter());
+
+        this.map.addListener('center_changed', () => {
+          this.googleMapsService.marker.setPosition(this.map.getCenter());
+        });
       }
     }
+  }
+
+  ionFocus() {
+
   }
 
   resetMap() {
@@ -90,45 +98,49 @@ export class MapPage implements OnInit {
   continue() {
     switch (this.option) {
       case MAP_STEP.ORIGIN:
-        const origin_icon = {
-          url: "./assets/icon/grn-circle.png", // url
-          scaledSize: new google.maps.Size(30, 30), // scaled size
-          // origin: new google.maps.Point(0,0), // origin
-          //anchor: new google.maps.Point(0, 0) // anchor
-        };
-
-        this.marker_origin = new google.maps.Marker({
-          position: new google.maps.LatLng(this.googleMapsService.latitude, this.googleMapsService.longitude),
-          map: this.googleMapsService.map,
-          title: 'Localizador',
-          // icon: icon
-        })
+        if (!this.edition_mode) {
+          this.marker_origin = new google.maps.Marker({
+            position: new google.maps.LatLng(this.googleMapsService.latitude, this.googleMapsService.longitude),
+            map: this.map,
+            /*icon: {
+              url: "http://maps.google.com/mapfiles/ms/icons/green-dot.png",
+              origin: new google.maps.Point(0, 0),
+              anchor: new google.maps.Point(0, 0),
+            }*/
+          })
+        } else {
+          this.marker_origin.setMap(this.map);
+          this.marker_origin.setPosition(this.googleMapsService.marker.getPosition());
+        }
         this.continue_label = "Lugar de destino";
         this.option = MAP_STEP.DESTINATION;
         break;
+
       case MAP_STEP.DESTINATION:
-        const destination_icon = {
-          url: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png', // url
-          scaledSize: new google.maps.Size(30, 30), // scaled size
-          // origin: new google.maps.Point(0,0), // origin
-          //anchor: new google.maps.Point(0, 0) // anchor
-        };
-        this.marker_destination = new google.maps.Marker({
-          position: new google.maps.LatLng(this.googleMapsService.latitude, this.googleMapsService.longitude),
-          map: this.googleMapsService.map,
-          title: 'Localizador',
-          // icon: destination_icon
-        })
+        if (!this.edition_mode) {
+          this.marker_destination = new google.maps.Marker({
+            position: new google.maps.LatLng(this.googleMapsService.latitude, this.googleMapsService.longitude),
+            map: this.map,
+            /*icon: {
+              url: "http://maps.google.com/mapfiles/ms/icons/red-dot.png",
+              origin: new google.maps.Point(0, 0),
+              anchor: new google.maps.Point(0, 0),
+            }*/
+          })
+        } else {
+          this.marker_destination.setMap(this.map);
+          this.marker_destination.setPosition(this.googleMapsService.marker.getPosition());
+        }
         this.continue_label = "Continuar";
-        this.option = MAP_STEP.CONTINUE
+        this.option = MAP_STEP.CONTINUE;
         break;
 
       case MAP_STEP.CONTINUE:
         this.continue_label = "Lugar de origen";
-        this.option = MAP_STEP.ORIGIN
+        this.option = MAP_STEP.ORIGIN;
         this.googleMapsService.markers.push(this.marker_origin);
         this.googleMapsService.markers.push(this.marker_destination);
-        this.navCtrl.navigateForward(['./shipping-info'])
+        this.navCtrl.navigateForward(['./shipping-info']);
         break;
     }
   }
@@ -149,10 +161,10 @@ export class MapPage implements OnInit {
     });
   }
 
-  centerMap(current_latitude: number, current_longitude: number) {
+  centerMap(current_latitude: string, current_longitude: string) {
     this.googleMapsService.latLng = new google.maps.LatLng(current_latitude, current_longitude);
-    this.googleMapsService.map.setZoom(17);
-    this.googleMapsService.map.setCenter({lat: current_latitude, lng: current_longitude});
+    this.map.setZoom(17);
+    this.map.setCenter({lat: current_latitude, lng: current_longitude});
   }
 
   async presentAlert() {
