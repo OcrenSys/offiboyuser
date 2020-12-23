@@ -35,6 +35,7 @@
   --transparent: rgba(0, 0, 0, 0);
   --text-light: #7d7c7c;
   --bg-light: #f4f4f4;
+  --bg-dark: #f6f6f6; //#636363;
   --text-dark: #636363;
   --text-black: #0e0e0f;
   --bg-color: #1c2025;
@@ -59,6 +60,11 @@ h6 {
 .bg_color {
   //--background: var(--bg-color);
   --background: var(--bg-light);
+}
+
+.bg_color_dark {
+  //--background: var(--bg-color);
+  --background: var(--bg-dark);
 }
 
 .bg-img {
@@ -130,7 +136,7 @@ h6 {
     font-size: 1rem;
     font-weight: 700;
     height: 50px;
-    --background: var(--primary);
+    --background: var(--secondary);
     text-transform: none;
     color: var(--white);
     margin: 0;
@@ -336,7 +342,7 @@ ion-header {
     width: 200px;
     height: 200px;
 
-    img{
+    img {
       border-radius: 0;
       object-fit: contain;
     }
@@ -374,6 +380,7 @@ ion-header {
   ion-item.danger {
     border: 1px solid var(--ion-color-danger) !important;
   }
+
   ion-item {
     min-height: unset !important;
     box-shadow: none !important;
@@ -575,6 +582,7 @@ ion-label.link-label {
       overflow: hidden;
       transition: all .4s;
       box-shadow: 1px 2px 3px var(--primary-light);
+
       &:first-child {
         margin-left: 12.5px;
       }
@@ -620,7 +628,7 @@ ion-label.link-label {
   padding: 10px 20px 0px 20px;
 
   .truck_details {
-    padding-bottom: 14px;
+    padding-bottom: 5px;
 
     .truck_img {
       min-width: 95px;

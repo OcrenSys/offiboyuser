@@ -1,0 +1,45 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-icon class="zmdi zmdi-close" (click)="close()"></ion-icon>
+        </ion-buttons>
+        <ion-title>
+            <div class="d-flex tab_btn">
+                <ion-searchbar #searchbar class="transparent-searchbar" placeholder=""
+                               [(ngModel)]="googleMapsService.google_address"
+                               (ionInput)="searchPlace()">
+                </ion-searchbar>
+                <ion-icon class="zmdi zmdi-search end ion-text-end"></ion-icon>
+            </div>
+        </ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content class="bg_color_dark">
+    <div class="tab_container">
+        <ion-list lines="none">
+            <ion-item (click)="selectPlace(PLACES.CURRENT_LOCATION)" class="in_transist">
+                <ion-icon color="primary" class="zmdi zmdi-gps-dot" slot="start"></ion-icon>
+                <h3>Ubicacion Actual</h3>
+            </ion-item>
+
+            <ion-item *ngFor="let place of places" (click)="selectPlace(PLACES.SELECTED_LOCATION, place)"
+                      class="in_transist">
+                <div class="truck_details d-flex">
+                    <!--<div class="img_box center_img">
+                        <img src="assets/imgs/driver_pic.png" class="crop_img">
+                    </div>-->
+                    <ion-icon color="primary" class="zmdi zmdi-pin" slot="start"></ion-icon>
+                    <div class="text_box">
+                        <h2 class="d-flex">
+                            {{place.structured_formatting.main_text}}
+                        </h2>
+                        <h3 class="d-flex">
+                            {{place.description}}
+                        </h3>
+                    </div>
+                </div>
+            </ion-item>
+        </ion-list>
+    </div>
+</ion-content>

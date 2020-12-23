@@ -1,7 +1,9 @@
 import {Component, ElementRef, NgZone, OnInit, ViewChild} from '@angular/core';
-import {AlertController, NavController, Platform} from "@ionic/angular";
+import {AlertController, ModalController, NavController, Platform} from "@ionic/angular";
 import {GoogleMapsService} from "../../services/GoogleMaps/google-maps.service";
 import {MAP_STEP} from "../../utils/Enums/Markers";
+import {IonSearchComponent} from "../../components/ion-search/ion-search.component";
+import {Places} from "../../utils/Enums/Places";
 
 declare var google;
 
@@ -24,15 +26,18 @@ export class MapPage implements OnInit {
   option: any = MAP_STEP.ORIGIN
 
   map: any = null;
-  // position_origin: any = null;
-  // position_destination: any = null;
+  places: Array<any> = [];
+  location: any = null;
+  autocompleteService: any = null;
+  placesService: any = null;
 
   constructor(
-    private platform: Platform,
-    public googleMapsService: GoogleMapsService,
     private zone: NgZone,
+    private platform: Platform,
     private alertCtrl: AlertController,
+    private modalCtrl: ModalController,
     private navCtrl: NavController,
+    public googleMapsService: GoogleMapsService,
   ) {
   }
 
@@ -45,8 +50,8 @@ export class MapPage implements OnInit {
 
       this.googleMapsService.initMapStatic(this.mapElement.nativeElement)
         .then((_map: any) => {
-          // this.autocompleteService = new google.maps.places.AutocompleteService();
-          // this.placesService = new google.maps.places.PlacesService(loaded_map);
+          this.autocompleteService = new google.maps.places.AutocompleteService();
+          this.placesService = new google.maps.places.PlacesService(_map);
           // this.searchDisabled = false;
           this.map = _map;
           this.hideMap = false;
@@ -85,8 +90,56 @@ export class MapPage implements OnInit {
     }
   }
 
-  ionFocus() {
+  async ionFocus() {
+    const modal = await this.modalCtrl.create({
+      component: IonSearchComponent,
+      componentProps: {
+        autocompleteService: this.autocompleteService,
+        placesService: this.placesService,
+        input: this.googleMapsService.google_address
+      },
+      cssClass: 'my-custom-class'
+    });
+    await modal.present();
+    await modal.onDidDismiss().then((response: any) => {
+      const data = response?.data?.data || null;
+      const type = response?.data?.type;
 
+      if (type === Places.CURRENT_LOCATION)
+        this.getCurrentPosition();
+
+      if (type === Places.SELECTED_LOCATION)
+        if (data)
+          this.selectPlace(data);
+    })
+  }
+
+  selectPlace(place) {
+    this.places = [];
+    let location = {
+      lat: null,
+      lng: null,
+      description: place.description || '',
+      name: place.name || ''
+    };
+
+    this.placesService.getDetails(
+      {placeId: place.place_id},
+      (place_details) => {
+        this.zone.run(() => {
+          location.name = place_details.name;
+          location.description = place_details.formatted_address;
+          location.lat = place_details.geometry.location.lat();
+          location.lng = place_details.geometry.location.lng();
+          // this.location = location;
+          // this.saveDisabled = false;
+
+          this.googleMapsService.latitude = place_details.geometry.location.lat();
+          this.googleMapsService.longitude = place_details.geometry.location.lng();
+
+          this.centerMap(location.lat, location.lng);
+        });
+      });
   }
 
   resetMap() {

@@ -1,0 +1,138 @@
+
+
+ion-list {
+  width: calc(100% - 25px);
+  margin: 0 auto;
+  margin-top: 0px;
+  padding: 0;
+  margin-bottom: 35px;
+  background: none;
+
+  ion-item {
+    margin-bottom: 8px;
+    border-radius: 8px;
+    padding: 12px 18px 12px 10px;
+    --background: var(--transparent);
+    background: var(--white);
+    --inner-padding-end: 0px;
+    --inner-min-height: unset !important;
+    --padding-start: 0;
+    box-shadow: 2px 1px 5px var(--primary-light) !important;
+    --min-height: unset;
+
+    .truck_details {
+      .img_box {
+        max-width: 53px;
+        min-width: 53px;
+        height: 53px;
+        border-radius: 50%;
+        margin-right: 10px;
+      }
+
+      .text_box {
+        width: 100%;
+
+        h2 {
+          font-size: 1.1rem;
+          font-weight: 700;
+          margin: 0;
+          letter-spacing: 0;
+          margin-bottom: 4px;
+          color: var(--text-dark);
+          .end {
+
+            font-size: .95rem;
+            letter-spacing: .5px;
+            letter-spacing: 0;
+          }
+        }
+
+        h3 {
+          color: var(--text-light);
+          font-weight: 400;
+          font-size: .7rem;
+          margin: 0;
+          margin-bottom: 4px;
+          letter-spacing: 0;
+
+          span {
+            strong {
+              color: var(--text-black);
+            }
+          }
+        }
+      }
+    }
+
+    &.in_transist {
+      .truck_details .text_box h2 .end {
+        color: var(--green_color);
+
+      }
+    }
+
+    &.idle {
+      .truck_details .text_box h2 .end {
+        color: var(--orange_color);
+
+      }
+    }
+
+    &.in_garange {
+      .truck_details .text_box h2 .end {
+        color: var(--sky_Blue);
+
+      }
+    }
+
+    &.stopped {
+      .truck_details .text_box h2 .end {
+        color: var(--red_color);
+
+      }
+    }
+  }
+}
+
+
+
+
+/** header transparent
+.transparent-header {
+  // This is just to make the header transparent and button/icon with white color
+  .toolbar-content,
+  .back-button {
+    color: white;
+  }
+
+  .toolbar-background,
+  ion-navbar,
+  ion-header {
+    background: transparent !important;
+    background-color: transparent !important;
+  }
+
+  .header-md::after,
+  .toolbar-background-ios {
+    background-image: none;
+    border-bottom: 0;
+  }
+
+  .header-ios .toolbar-background-ios,
+  .footer-ios .toolbar-background-ios {
+    border: 0;
+  }
+
+  .toolbar-md, .toolbar-ios {
+    padding: 4px;
+    min-height: 41px;
+    -webkit-box-shadow: none; // 1px 0px 3px #60646B;
+    box-shadow: none; //1px 0px 3px #60646B;
+  }
+
+  .header-md, .header-ios {
+    -webkit-box-shadow: none; //0 1px 8px rgba(71, 173, 72, 0.2);
+    box-shadow: none; //0 1px 8px rgba(71, 173, 72, 0.2);
+  }
+}
+*/

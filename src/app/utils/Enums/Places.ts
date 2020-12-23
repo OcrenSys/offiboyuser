@@ -1,0 +1,4 @@
+export enum Places {
+  CURRENT_LOCATION,
+  SELECTED_LOCATION
+}

@@ -3,7 +3,15 @@
     <ion-buttons slot="start">
       <ion-back-button text="" icon="chevron-back-sharp"></ion-back-button>
     </ion-buttons>
-    <ion-title>Mapa</ion-title>
+    <ion-title>
+      <div class="d-flex tab_btn">
+        <ion-searchbar class="transparent-searchbar"  placeholder=""
+                       [(ngModel)]="googleMapsService.google_address"
+                       (ionFocus)="ionFocus()">
+        </ion-searchbar>
+        <ion-icon class="zmdi zmdi-search end ion-text-end"></ion-icon>
+      </div>
+    </ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -14,13 +22,13 @@
 &lt;!&ndash;    <i class="zmdi zmdi-pin"></i>&ndash;&gt;
   </div>-->
 
-  <ion-fab color="primary" horizontal="end" vertical="bottom" slot="fixed">
-    <ion-fab-button size="small" color="secondary">
+  <ion-fab horizontal="end" vertical="bottom" slot="fixed">
+    <ion-fab-button color="secondary" size="small">
       <ion-icon class="zmdi zmdi-gps-dot" (click)="getCurrentPosition()"></ion-icon>
     </ion-fab-button>
   </ion-fab>
 </ion-content>
 
 <ion-footer>
-  <ion-button color="primary" expand="full" fill="solid" (click)="continue()">{{continue_label}}</ion-button>
+  <ion-button color="secondary" expand="full" fill="solid" (click)="continue()">{{continue_label}}</ion-button>
 </ion-footer>
