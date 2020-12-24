@@ -49,7 +49,7 @@ export class GoogleMapsService {
     this.directionsDisplay = new google.maps.DirectionsRenderer;
   }
 
-  initMapStatic(mapElement: any): Promise<any> {
+  initMapStatic(mapElement: any, defaultOrigin?: any): Promise<any> {
     this.latitude = 0;
     this.longitude = 0;
     this.accuracy = 0;
@@ -57,18 +57,26 @@ export class GoogleMapsService {
       this.mapElement = mapElement;
       this.mapInitialised = true;
 
-      this.getCurrentPosition()
-        .then((position) => {
-          let data = {
-            accuracy: position.coords.accuracy,
-            latitude: position.coords.latitude,
-            longitude: position.coords.longitude
-          };
-          this.loadStaticMap(data);
-        })
-        .then(() => {
-          resolve(this.map)
-        })
+      if (defaultOrigin) {
+        this.loadStaticMap({
+          accuracy: 0,
+          latitude: defaultOrigin.latitude,
+          longitude: defaultOrigin.longitude,
+        });
+        resolve(this.map)
+      } else {
+        this.getCurrentPosition()
+          .then((position) => {
+            this.loadStaticMap({
+              accuracy: position.coords.accuracy,
+              latitude: position.coords.latitude,
+              longitude: position.coords.longitude
+            });
+          })
+          .then(() => {
+            resolve(this.map)
+          })
+      }
     })
   }
 
@@ -172,7 +180,7 @@ export class GoogleMapsService {
           let subThoroughfare = result[0].subThoroughfare ? result[0].subThoroughfare.concat(", ") : "";
 
           this.google_address = subAdministrativeArea + subLocality + administrativeArea + thoroughfare + subThoroughfare + locality + countryName;
-          if(prop) prop.displayRoute = subAdministrativeArea + subLocality + administrativeArea + thoroughfare + subThoroughfare + locality + countryName;
+          if (prop) prop.displayRoute = subAdministrativeArea + subLocality + administrativeArea + thoroughfare + subThoroughfare + locality + countryName;
           // this.displayRoute.directionsDisplay = subAdministrativeArea + subLocality + administrativeArea + thoroughfare + subThoroughfare + locality + countryName;
           // console.log('\n\nNative geocoder:\n', this.google_address);
         })
@@ -206,13 +214,18 @@ export class GoogleMapsService {
     });
   }
 
+  centerMap(_lat: string, _lng: string, _map: any) {
+    this.latLng = new google.maps.LatLng(_lat, _lng);
+    _map.setZoom(17);
+    _map.setCenter({lat: _lat, lng: _lng});
+  }
 
   setStaticMap(data: StaticMap): string {
     console.log('\n\nSetting StaticMap...\n', data);
     let url = `https://maps.googleapis.com/maps/api/staticmap?center=${data.latitude}+${data.longitude}&zoom=${data.zoom}&scale=1&size=600x300&maptype=roadmap&key=${Constants.API_KEY}&format=png&visual_refresh=true&markers=size:mid%7Ccolor:0xff0000%7Clabel:A%7C${data.latitude}+${data.longitude}`;
     if (data.origin != null && data.destination != null) {
       // `path=color:0x0000ff|weight:5|${data.origin.latitude},${data.origin.longitude}|${data.destination.latitude},${data.destination.longitude}`;
-        url = `https://maps.googleapis.com/maps/api/staticmap?center=${data.latitude}+${data.longitude}&zoom=${data.zoom}&scale=1&size=600x300&maptype=roadmap&key=${Constants.API_KEY}&format=png&visual_refresh=true&markers=size:mid%7Ccolor:0xff0000%7Clabel:A%7C${data.latitude}+${data.longitude}&path=color:0x0000ff|weight:5|${data.origin.latitude},${data.origin.longitude}|${data.destination.latitude},${data.destination.longitude}`;
+      url = `https://maps.googleapis.com/maps/api/staticmap?center=${data.latitude}+${data.longitude}&zoom=${data.zoom}&scale=1&size=600x300&maptype=roadmap&key=${Constants.API_KEY}&format=png&visual_refresh=true&markers=size:mid%7Ccolor:0xff0000%7Clabel:A%7C${data.latitude}+${data.longitude}&path=color:0x0000ff|weight:5|${data.origin.latitude},${data.origin.longitude}|${data.destination.latitude},${data.destination.longitude}`;
     }
 
     console.log('\n\nfinal url...\n', url);

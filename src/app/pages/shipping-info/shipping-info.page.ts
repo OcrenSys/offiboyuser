@@ -63,14 +63,15 @@ export class ShippingInfoPage implements OnInit {
           this.googleMapsService.settingDisplayRoute(origin, destination, this.map)
           this.googleMapsService.getNativeGeocoder(this.start_location)
           this.googleMapsService.getNativeGeocoder(this.end_location)
+          this.googleMapsService.centerMap(origin.lat(), origin.lng(), this.map);
 
-          this.hideMap = false;
         })
         .finally(() => {
           setTimeout(() => {
-            console.log('finally load map');
-            this.map.panTo(this.map.getCenter())
-          }, 2000)
+            // this.map.panTo(this.map.getCenter())
+            // google.maps.event.trigger(this.map, 'resize');
+            this.hideMap = false;
+          }, 1000)
         })
     }
   }

@@ -22,6 +22,7 @@ export class MapPage implements OnInit {
   edition_mode: boolean = false;
   hideMap: boolean = true;
   isMapLoading: boolean = false;
+  color: string = "";
   continue_label: string = "";
   option: any = MAP_STEP.ORIGIN
 
@@ -44,20 +45,29 @@ export class MapPage implements OnInit {
   ngOnInit() {
     this.initialized = true;
     if (this.platform.is('cordova')) {
-      this.continue_label = "Lugar de origen";
+      this.color = "primary";
+      this.continue_label = "Seleccionar origen";
       if (this.googleMapsService.directionsDisplay != null)
         this.resetMap()
 
-      this.googleMapsService.initMapStatic(this.mapElement.nativeElement)
+      const QUITO = {
+        latitude: "-0.17945745700059929",
+        longitude: "-78.47123815826913",
+      }
+      this.googleMapsService.initMapStatic(this.mapElement.nativeElement, QUITO)
         .then((_map: any) => {
           this.autocompleteService = new google.maps.places.AutocompleteService();
           this.placesService = new google.maps.places.PlacesService(_map);
           // this.searchDisabled = false;
           this.map = _map;
-          this.hideMap = false;
         })
         .finally(() => {
-          this.map.panTo(this.map.getCenter());
+          setTimeout(() => {
+            // this.map.panTo(this.map.getCenter())
+            // google.maps.event.trigger(this.map, 'resize');
+            this.hideMap = false;
+          }, 1000)
+
         })
     }
   }
@@ -73,10 +83,10 @@ export class MapPage implements OnInit {
         this.googleMapsService.markers[0].setMap(null);
         this.googleMapsService.markers[1].setMap(null);
 
-        this.centerMap(this.marker_origin.getPosition().lat(), this.marker_origin.getPosition().lng())
+        this.googleMapsService.centerMap(this.marker_origin.getPosition().lat(), this.marker_origin.getPosition().lng(), this.map)
 
-        this.marker_origin.setMap(null)
-        this.marker_destination.setMap(null)
+        this.marker_origin.setMap(null);
+        this.marker_destination.setMap(null);
         this.googleMapsService.markers = [];
 
         this.map.panTo(this.map.getCenter());
@@ -137,7 +147,7 @@ export class MapPage implements OnInit {
           this.googleMapsService.latitude = place_details.geometry.location.lat();
           this.googleMapsService.longitude = place_details.geometry.location.lng();
 
-          this.centerMap(location.lat, location.lng);
+          this.googleMapsService.centerMap(location.lat, location.lng, this.map);
         });
       });
   }
@@ -155,17 +165,22 @@ export class MapPage implements OnInit {
           this.marker_origin = new google.maps.Marker({
             position: new google.maps.LatLng(this.googleMapsService.latitude, this.googleMapsService.longitude),
             map: this.map,
-            /*icon: {
-              url: "http://maps.google.com/mapfiles/ms/icons/green-dot.png",
-              origin: new google.maps.Point(0, 0),
-              anchor: new google.maps.Point(0, 0),
-            }*/
+            icon: {
+              path: 'm 12,2.4000002 c -2.7802903,0 -5.9650002,1.5099999 -5.9650002,5.8299998 0,1.74375 1.1549213,3.264465 2.3551945,4.025812 1.2002732,0.761348 2.4458987,0.763328 2.6273057,2.474813 L 12,24 12.9825,14.68 c 0.179732,-1.704939 1.425357,-1.665423 2.626049,-2.424188 C 16.809241,11.497047 17.965,9.94 17.965,8.23 17.965,3.9100001 14.78029,2.4000002 12,2.4000002 Z',
+              fillColor: '#FF0000',
+              fillOpacity: 1.0,
+              strokeColor: '#000000',
+              strokeWeight: 1,
+              scale: 2,
+              anchor: new google.maps.Point(12, 24),
+            }
           })
         } else {
           this.marker_origin.setMap(this.map);
           this.marker_origin.setPosition(this.googleMapsService.marker.getPosition());
         }
-        this.continue_label = "Lugar de destino";
+        this.color = "secondary";
+        this.continue_label = "Seleccionar destino";
         this.option = MAP_STEP.DESTINATION;
         break;
 
@@ -174,23 +189,31 @@ export class MapPage implements OnInit {
           this.marker_destination = new google.maps.Marker({
             position: new google.maps.LatLng(this.googleMapsService.latitude, this.googleMapsService.longitude),
             map: this.map,
-            /*icon: {
-              url: "http://maps.google.com/mapfiles/ms/icons/red-dot.png",
-              origin: new google.maps.Point(0, 0),
-              anchor: new google.maps.Point(0, 0),
-            }*/
+            icon: {
+              path: 'm 12,2.4000002 c -2.7802903,0 -5.9650002,1.5099999 -5.9650002,5.8299998 0,1.74375 1.1549213,3.264465 2.3551945,4.025812 1.2002732,0.761348 2.4458987,0.763328 2.6273057,2.474813 L 12,24 12.9825,14.68 c 0.179732,-1.704939 1.425357,-1.665423 2.626049,-2.424188 C 16.809241,11.497047 17.965,9.94 17.965,8.23 17.965,3.9100001 14.78029,2.4000002 12,2.4000002 Z',
+              fillColor: '#00FF00',
+              fillOpacity: 1.0,
+              strokeColor: '#000000',
+              strokeWeight: 1,
+              scale: 2,
+              anchor: new google.maps.Point(12, 24),
+            }
           })
         } else {
           this.marker_destination.setMap(this.map);
           this.marker_destination.setPosition(this.googleMapsService.marker.getPosition());
         }
+        this.color = "secondary";
         this.continue_label = "Continuar";
+        this.googleMapsService.marker.setMap(null);
         this.option = MAP_STEP.CONTINUE;
         break;
 
       case MAP_STEP.CONTINUE:
-        this.continue_label = "Lugar de origen";
+        this.color = "primary";
+        this.continue_label = "Seleccionar origen";
         this.option = MAP_STEP.ORIGIN;
+        this.googleMapsService.marker.setMap(null);
         this.googleMapsService.markers.push(this.marker_origin);
         this.googleMapsService.markers.push(this.marker_destination);
         this.navCtrl.navigateForward(['./shipping-info']);
@@ -207,17 +230,11 @@ export class MapPage implements OnInit {
       });
     }).then(() => {
       this.googleMapsService.getNativeGeocoder();
-      this.centerMap(this.googleMapsService.latitude, this.googleMapsService.longitude);
+      this.googleMapsService.centerMap(this.googleMapsService.latitude, this.googleMapsService.longitude, this.map);
     }).catch((error: any) => {
       console.log('error loading_directions mapa', error);
       this.presentAlert()
     });
-  }
-
-  centerMap(current_latitude: string, current_longitude: string) {
-    this.googleMapsService.latLng = new google.maps.LatLng(current_latitude, current_longitude);
-    this.map.setZoom(17);
-    this.map.setCenter({lat: current_latitude, lng: current_longitude});
   }
 
   async presentAlert() {

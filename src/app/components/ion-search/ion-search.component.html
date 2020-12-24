@@ -7,6 +7,7 @@
             <div class="d-flex tab_btn">
                 <ion-searchbar #searchbar class="transparent-searchbar" placeholder=""
                                [(ngModel)]="googleMapsService.google_address"
+                               (ionFocus)="clear()"
                                (ionInput)="searchPlace()">
                 </ion-searchbar>
                 <ion-icon class="zmdi zmdi-search end ion-text-end"></ion-icon>

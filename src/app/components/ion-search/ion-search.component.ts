@@ -27,7 +27,6 @@ export class IonSearchComponent implements OnInit {
 
   tab: string = "drivers";
 
-
   constructor(
     private platform: Platform,
     public googleMapsService: GoogleMapsService,
@@ -39,6 +38,11 @@ export class IonSearchComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.googleMapsService.google_address = "";
+  }
+
+  clear () {
+    this.googleMapsService.google_address = "";
   }
 
   searchPlace() {
@@ -47,7 +51,7 @@ export class IonSearchComponent implements OnInit {
         types: ['geocode', 'establishment'],
         input: this.googleMapsService.google_address,
         componentRestrictions: {
-          country: 'NI',
+          country: ['NI', 'EC'],
         }
       };
 
@@ -57,8 +61,6 @@ export class IonSearchComponent implements OnInit {
           predictions.map((prediction) => {
             this.places.push(prediction);
           });
-
-          console.log('\n\nplaces predicted...\n', this.places);
         }
       });
     } else {
