@@ -39,39 +39,37 @@ export class ShippingInfoPage implements OnInit {
 
   ngOnInit() {
     if (this.platform.is('cordova')) {
-      this.googleMapsService.initMapStatic(this.mapElement.nativeElement)
+      const origin = this.googleMapsService.markers[0].getPosition();
+      const destination = this.googleMapsService.markers[1].getPosition();
+
+      this.start_location = {
+        latitude: origin.lat(),
+        longitude: origin.lng(),
+        displayRoute: ""
+      }
+      this.end_location = {
+        latitude: destination.lat(),
+        longitude: destination.lng(),
+        displayRoute: ""
+      }
+
+      this.googleMapsService.initMapStatic(this.mapElement.nativeElement, this.start_location)
         .then((_map: any) => {
           this.map = _map;
-          const origin = this.googleMapsService.markers[0].getPosition();
-          const destination = this.googleMapsService.markers[1].getPosition();
 
-          this.googleMapsService.markers[0].setMap(this.map)
-          this.googleMapsService.markers[1].setMap(this.map)
+          this.googleMapsService.markers[0].setMap(this.map);
+          this.googleMapsService.markers[1].setMap(this.map);
           this.googleMapsService.marker.setMap(null);
 
-          this.start_location = {
-            latitude: origin.lat(),
-            longitude: origin.lng(),
-            displayRoute: ""
-          }
-          this.end_location = {
-            latitude: destination.lat(),
-            longitude: destination.lng(),
-            displayRoute: ""
-          }
-
-          this.googleMapsService.settingDisplayRoute(origin, destination, this.map)
-          this.googleMapsService.getNativeGeocoder(this.start_location)
-          this.googleMapsService.getNativeGeocoder(this.end_location)
-          this.googleMapsService.centerMap(origin.lat(), origin.lng(), this.map);
-
+          this.googleMapsService.settingDisplayRoute(origin, destination, this.map);
+          this.googleMapsService.getNativeGeocoder(this.start_location);
+          this.googleMapsService.getNativeGeocoder(this.end_location);
         })
         .finally(() => {
           setTimeout(() => {
-            // this.map.panTo(this.map.getCenter())
-            // google.maps.event.trigger(this.map, 'resize');
+            this.googleMapsService.centerMap(this.start_location.latitude, this.start_location.longitude, this.map)
             this.hideMap = false;
-          }, 1000)
+          }, 6000)
         })
     }
   }

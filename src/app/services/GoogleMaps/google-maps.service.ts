@@ -216,8 +216,9 @@ export class GoogleMapsService {
 
   centerMap(_lat: string, _lng: string, _map: any) {
     this.latLng = new google.maps.LatLng(_lat, _lng);
-    _map.setZoom(17);
-    _map.setCenter({lat: _lat, lng: _lng});
+    _map.setZoom(this.zoomMap);
+    _map.setCenter(this.latLng);
+    _map.panTo(this.latLng);
   }
 
   setStaticMap(data: StaticMap): string {
