@@ -119,6 +119,18 @@ h6 {
       margin: auto;
     }
 
+    &.crop_img_map {
+      position: absolute;
+      width: 100vw;
+      height: 100vh;
+      min-height: 1200px !important;
+      top: 0;
+      bottom: 0;
+      left: -50% !important;
+      right: -50% !important;
+      margin: auto;
+    }
+
     &.crop_img_avatar {
       width: 100%;
       height: 100%;

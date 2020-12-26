@@ -222,15 +222,7 @@ export class GoogleMapsService {
   }
 
   setStaticMap(data: StaticMap): string {
-    console.log('\n\nSetting StaticMap...\n', data);
-    let url = `https://maps.googleapis.com/maps/api/staticmap?center=${data.latitude}+${data.longitude}&zoom=${data.zoom}&scale=1&size=600x300&maptype=roadmap&key=${Constants.API_KEY}&format=png&visual_refresh=true&markers=size:mid%7Ccolor:0xff0000%7Clabel:A%7C${data.latitude}+${data.longitude}`;
-    if (data.origin != null && data.destination != null) {
-      // `path=color:0x0000ff|weight:5|${data.origin.latitude},${data.origin.longitude}|${data.destination.latitude},${data.destination.longitude}`;
-      url = `https://maps.googleapis.com/maps/api/staticmap?center=${data.latitude}+${data.longitude}&zoom=${data.zoom}&scale=1&size=600x300&maptype=roadmap&key=${Constants.API_KEY}&format=png&visual_refresh=true&markers=size:mid%7Ccolor:0xff0000%7Clabel:A%7C${data.latitude}+${data.longitude}&path=color:0x0000ff|weight:5|${data.origin.latitude},${data.origin.longitude}|${data.destination.latitude},${data.destination.longitude}`;
-    }
-
-    console.log('\n\nfinal url...\n', url);
-    return url
+    return `https://maps.googleapis.com/maps/api/staticmap?center=${data.latitude}+${data.longitude}&zoom=${data.zoom || this.zoomMap}&scale=2&size=${data.width || 600}x${data.height || 300}&maptype=roadmap&key=${Constants.API_KEY}&format=png&visual_refresh=true&markers=size:mid%7Ccolor:0xff0000%7Clabel:A%7C${ data.latitude}+${data.longitude}`;
   }
 
 }

@@ -1,6 +1,7 @@
 import {Component, ElementRef, NgZone, OnInit, ViewChild} from '@angular/core';
 import {GoogleMapsService} from "../../services/GoogleMaps/google-maps.service";
 import {AlertController, NavController, Platform} from "@ionic/angular";
+import {NavigationExtras, Router} from "@angular/router";
 
 declare var google;
 
@@ -29,11 +30,13 @@ export class ShippingInfoPage implements OnInit {
     displayRoute: ""
   }
 
-  constructor(private platform: Platform,
-              public googleMapsService: GoogleMapsService,
-              private zone: NgZone,
-              private alertCtrl: AlertController,
-              private navCtrl: NavController,
+  constructor(
+    private platform: Platform,
+    private route: Router,
+    public googleMapsService: GoogleMapsService,
+    private zone: NgZone,
+    private alertCtrl: AlertController,
+    private navCtrl: NavController,
   ) {
   }
 
@@ -69,9 +72,23 @@ export class ShippingInfoPage implements OnInit {
           setTimeout(() => {
             this.googleMapsService.centerMap(this.start_location.latitude, this.start_location.longitude, this.map)
             this.hideMap = false;
-          }, 6000)
+          }, 600)
         })
     }
+  }
+
+  continue() {
+    const navigationExtras: NavigationExtras = {
+      queryParams: {
+        coord: JSON.stringify({
+          origin: this.start_location,
+          destination: this.end_location,
+          distance: this.googleMapsService.displayRoute.distance,
+          time: this.googleMapsService.displayRoute.time,
+        }),
+      }
+    };
+    this.route.navigate(['./shipping-send'], navigationExtras);
   }
 
 }

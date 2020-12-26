@@ -30,6 +30,10 @@ const routes: Routes = [
   {
     path: 'shipping-info',
     loadChildren: () => import('./pages/shipping-info/shipping-info.module').then( m => m.ShippingInfoPageModule)
+  },
+  {
+    path: 'shipping-send',
+    loadChildren: () => import('./pages/shipping-send/shipping-send.module').then( m => m.ShippingSendPageModule)
   }
 ];
 

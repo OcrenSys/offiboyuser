@@ -1,0 +1,68 @@
+<ion-header class="bg-transparent">
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-back-button text="" icon="chevron-back-sharp"></ion-back-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content fullscreen>
+    <div class="map center_img" *ngIf="coord">
+        <img [src]="background" class="crop_img_map" alt="">
+    </div>
+    <div class="form">
+        <ion-list lines="none">
+            <ion-item class="trip_start" lines="none">
+                <ion-icon class="zmdi zmdi-circle ion-text-start" slot="start"></ion-icon>
+                <ion-label position="stacked">{{'Lugar de origen'}}</ion-label>
+                <ion-input type="name"  [value]="coord.origin.displayRoute"></ion-input>
+                <ion-icon class="zmdi zmdi-gps-dot ion-text-end" slot="end"></ion-icon>
+            </ion-item>
+            <ion-item class="trip_end" lines="none">
+                <ion-icon class="zmdi zmdi-circle ion-text-start" slot="start"></ion-icon>
+                <ion-label position="stacked">{{'Lugar de destino'}}</ion-label>
+                <ion-input type="name" [value]="coord.destination.displayRoute"></ion-input>
+            </ion-item>
+        </ion-list>
+    </div>
+
+    <form [formGroup]="form" class="form other_info">
+        <ion-list lines="none">
+            <ion-item lines="none">
+                <ion-label position="stacked">{{'Nombre del remitente'}}</ion-label>
+                <ion-input type="text" formControlName="client"></ion-input>
+            </ion-item>
+            <ion-row>
+                <ion-col size="3">
+                    <ion-item lines="none">
+                        <ion-label position="stacked">{{'País'}}</ion-label>
+                        <ion-select interface="popover" formControlName="type">
+                            <ion-select-option value="+505">{{'Nicaragua' | countrycode}}</ion-select-option>
+                            <ion-select-option value="+593">{{'Ecuador' | countrycode}}</ion-select-option>
+                        </ion-select>
+                    </ion-item>
+                </ion-col>
+                <ion-col size="9">
+                    <ion-item lines="none">
+                        <ion-label position="stacked">{{'Teléfono del remitente'}}</ion-label>
+                        <ion-input type="number" formControlName="phone_destination"></ion-input>
+                    </ion-item>
+                </ion-col>
+            </ion-row>
+            <ion-item lines="none">
+                <ion-label position="stacked">{{'Descripción del paquete'}}</ion-label>
+                <ion-input type="text" formControlName="content"></ion-input>
+            </ion-item>
+            <ion-item lines="none">
+                <ion-label position="stacked">{{'Tipo de paquete'}}</ion-label>
+                <ion-select mode="ios" interface="popover" formControlName="type">
+                    <ion-select-option value="Sobre">Sobre</ion-select-option>
+                    <ion-select-option value="Paquete de caja">Paquete de caja</ion-select-option>
+                    <ion-select-option value="Otro">Otro</ion-select-option>
+                </ion-select>
+            </ion-item>
+        </ion-list>
+
+        <ion-button size="large" shape="round" class="btn" (click)="continue()">{{'Enviar'}}</ion-button>
+    </form>
+</ion-content>

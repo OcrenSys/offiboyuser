@@ -19,9 +19,9 @@ export class NotificationsService implements IService {
     }
     const alert = await this.alertCtrl.create(
       {
-        header: _header || "ArqueoApp",
-        message: _message || "¡ArqueoApp, aviso!",
-        subHeader: _subheader || "Aviso",
+        header: _header || "Offiboy",
+        message: _message || "¡Notificación!",
+        subHeader: _subheader || "",
         cssClass: 'alert-warning',
         buttons: [
           {

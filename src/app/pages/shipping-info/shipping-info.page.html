@@ -9,21 +9,8 @@
 
 
 <ion-content fullscreen>
-   <!-- <div class="map center_img">
-        <img [src]="url_image_map" class="">
-    </div>-->
     <div #mapInfo id="mapInfo" class="map-medium-height" [hidden]="hideMap">
     </div>
-    <!--<div class="location">
-      <ion-icon class="zmdi zmdi-circle start_location" style="top: 27%; left: 14%;"></ion-icon>
-      <ion-icon class="zmdi zmdi-circle end_location" style="top: 11%; right: 15%;"></ion-icon>
-    </div>-->
-
-    <!--<div class="truck" style="top: 15%; right: 51%;">
-        <div class="truck_img center_img">
-            <img src="assets/imgs/truck1.png" class="crop_img">
-        </div>
-    </div>-->
 </ion-content>
 
 <ion-footer style="top: 25vh" class="ion-no-border">
@@ -154,4 +141,7 @@
             </ion-list>
         </div>
     </ion-card>
+
+    <ion-button size="large" shape="round" class="btn" (click)="continue()">{{'continue' | translate}}</ion-button>
 </ion-footer>
+
