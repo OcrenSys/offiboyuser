@@ -1,8 +1,7 @@
 import {Injectable, NgZone} from '@angular/core';
 import {Platform} from "@ionic/angular";
-import {NativeGeocoder, NativeGeocoderOptions} from "@ionic-native/native-geocoder/ngx";
+import {NativeGeocoder} from "@ionic-native/native-geocoder/ngx";
 import {Geolocation} from '@ionic-native/geolocation/ngx';
-import {NativeGeocoderResult} from "@ionic-native/native-geocoder";
 import {Constants} from "../../utils/Constants";
 import {DisplayRouteResult} from "../../utils/Interfaces/DisplayRouteResult";
 import {StaticMap} from "../../utils/Interfaces/StaticMap";
@@ -32,6 +31,7 @@ export class GoogleMapsService {
   mapInitialised: boolean = false;
   directionsService: any = null;
   directionsDisplay: any = null;
+  geocoder: any = null;
 
   map: any = null;
   marker: any = null;
@@ -47,6 +47,7 @@ export class GoogleMapsService {
   ) {
     this.directionsService = new google.maps.DirectionsService;
     this.directionsDisplay = new google.maps.DirectionsRenderer;
+    this.geocoder = new google.maps.Geocoder;
   }
 
   initMapStatic(mapElement: any, defaultOrigin?: any): Promise<any> {
@@ -87,7 +88,7 @@ export class GoogleMapsService {
     this.longitude = data.longitude;
 
     this.latLng = new google.maps.LatLng(this.latitude, this.longitude);
-    this.getNativeGeocoder();
+    this.getGeocoder();
 
     let mapOptions = {
       center: this.latLng,
@@ -109,7 +110,7 @@ export class GoogleMapsService {
 
     const icon = {
       url: "./assets/imgs/pin3.png", // url
-      scaledSize: new google.maps.Size(30, 30), // scaled size
+      scaledSize: new google.maps.Size(30, 40), // scaled size
       // origin: new google.maps.Point(0,0), // origin
       //anchor: new google.maps.Point(0, 0) // anchor
     };
@@ -131,11 +132,8 @@ export class GoogleMapsService {
         let center = this.map.getCenter();
         this.latitude = center.lat();
         this.longitude = center.lng();
-
-        // this.latLng = new google.maps.LatLng(this.latitude, this.longitude);
-        // this.marker.setPosition(this.map.getCenter());
         this.map.panTo(this.map.getCenter());
-        this.getNativeGeocoder();
+        this.getGeocoder();
       }, 100);
     });
 
@@ -163,30 +161,23 @@ export class GoogleMapsService {
     });*/
   }
 
-  getNativeGeocoder(prop?) {
-    let options: NativeGeocoderOptions = {
-      useLocale: true,
-      maxResults: 5
-    };
-    this.nativeGeocoder.reverseGeocode(prop?.latitude || this.latitude, prop?.longitude || this.longitude, options)
-      .then(
-        (result: NativeGeocoderResult[]) => {
-          let countryName = result[0].countryName ? result[0].countryName.concat(", ") : "";
-          let administrativeArea = result[0].administrativeArea ? "" + result[0].administrativeArea.concat(", ") : "";
-          let subAdministrativeArea = result[0].subAdministrativeArea ? "" + result[0].subAdministrativeArea.concat(", ") : "";
-          let locality = result[0].locality ? result[0].locality.concat(", ") : "";
-          let subLocality = result[0].subLocality ? result[0].subLocality.concat(", ") : "";
-          let thoroughfare = result[0].thoroughfare ? result[0].thoroughfare.concat(", ") : "";
-          let subThoroughfare = result[0].subThoroughfare ? result[0].subThoroughfare.concat(", ") : "";
-
-          this.google_address = subAdministrativeArea + subLocality + administrativeArea + thoroughfare + subThoroughfare + locality + countryName;
-          if (prop) prop.displayRoute = subAdministrativeArea + subLocality + administrativeArea + thoroughfare + subThoroughfare + locality + countryName;
-          // this.displayRoute.directionsDisplay = subAdministrativeArea + subLocality + administrativeArea + thoroughfare + subThoroughfare + locality + countryName;
-          // console.log('\n\nNative geocoder:\n', this.google_address);
-        })
-      .catch((error: any) => {
-        console.log('error getNativeGeocoder...', error)
-      });
+  getGeocoder(prop?) {
+    this.geocoder.geocode({
+      'latLng': new google.maps.LatLng(prop?.latitude || this.latitude, prop?.longitude || this.longitude)
+    }, function (results, status) {
+      const self = this;
+      if (status === google.maps.GeocoderStatus.OK) {
+        if (results[1]) {
+          self.google_address = results[1].formatted_address;
+          if (prop) prop.displayRoute = self.google_address;
+          console.log("result", results[1]);
+        } else {
+          console.log('No results found');
+        }
+      } else {
+        console.log('Geocoder failed due to: ' + status);
+      }
+    });
   }
 
   settingDisplayRoute(origin, destination, map?: any) {
@@ -222,7 +213,7 @@ export class GoogleMapsService {
   }
 
   setStaticMap(data: StaticMap): string {
-    return `https://maps.googleapis.com/maps/api/staticmap?center=${data.latitude}+${data.longitude}&zoom=${data.zoom || this.zoomMap}&scale=2&size=${data.width || 600}x${data.height || 300}&maptype=roadmap&key=${Constants.API_KEY}&format=png&visual_refresh=true&markers=size:mid%7Ccolor:0xff0000%7Clabel:A%7C${ data.latitude}+${data.longitude}`;
+    return `https://maps.googleapis.com/maps/api/staticmap?center=${data.latitude}+${data.longitude}&zoom=${data.zoom || this.zoomMap}&scale=2&size=${data.width || 600}x${data.height || 300}&maptype=roadmap&key=${Constants.API_KEY}&format=png&visual_refresh=true&markers=size:mid%7Ccolor:0xff0000%7Clabel:A%7C${data.latitude}+${data.longitude}`;
   }
 
 }
