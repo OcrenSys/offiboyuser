@@ -1,10 +1,12 @@
 import {Injectable, NgZone} from '@angular/core';
 import {Platform} from "@ionic/angular";
-import {NativeGeocoder} from "@ionic-native/native-geocoder/ngx";
 import {Geolocation} from '@ionic-native/geolocation/ngx';
 import {Constants} from "../../utils/Constants";
 import {DisplayRouteResult} from "../../utils/Interfaces/DisplayRouteResult";
 import {StaticMap} from "../../utils/Interfaces/StaticMap";
+import {AndroidPermissions} from "@ionic-native/android-permissions/ngx";
+import {LocationAccuracy} from "@ionic-native/location-accuracy/ngx";
+import {NotificationsService} from "../Notifications";
 
 declare var google;
 
@@ -41,9 +43,9 @@ export class GoogleMapsService {
     public geolocation: Geolocation,
     public zone: NgZone,
     public platform: Platform,
-    // public util: Utilidades,
-    // public direccionesProvider: DireccionesProvider,
-    public nativeGeocoder: NativeGeocoder,
+    public notification: NotificationsService,
+    public androidPermissions: AndroidPermissions,
+    public locationAccuracy: LocationAccuracy,
   ) {
     this.directionsService = new google.maps.DirectionsService;
     this.directionsDisplay = new google.maps.DirectionsRenderer;
@@ -67,7 +69,7 @@ export class GoogleMapsService {
         resolve(this.map)
       } else {
         this.getCurrentPosition()
-          .then((position) => {
+          .then((position: any) => {
             this.loadStaticMap({
               accuracy: position.coords.accuracy,
               latitude: position.coords.latitude,
@@ -133,7 +135,10 @@ export class GoogleMapsService {
         this.latitude = center.lat();
         this.longitude = center.lng();
         this.map.panTo(this.map.getCenter());
-        this.getGeocoder();
+        this.getGeocoder({
+          latitude: this.marker.getPosition().lat(),
+          longitude: this.marker.getPosition().lng()
+        });
       }, 100);
     });
 
@@ -144,6 +149,73 @@ export class GoogleMapsService {
   }
 
   getCurrentPosition() {
+    return new Promise((resolve, reject): any => {
+      this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.ACCESS_COARSE_LOCATION)
+        .then(async result => {
+            console.log("checkGPSPermission:", result);
+            if (result.hasPermission) {
+              this.requestGPSPermission(resolve, reject);
+            } else {
+              this.notification.presentToast(
+                `Para acceder a la ubicación del dispositivo debe conceder los permisos de Ubicación.`,
+                3000
+              )
+            }
+          }, (error) => {
+            console.log(error);
+          this.notification.presentAlert(
+            `Para acceder a la ubicación del dispositivo debe conceder los permisos de Ubicación. <br> Por favor verífquelos y vuelva a intentarlo`,
+            'Permiso denegado',
+            'Offiboy',
+          )
+            // reject(error)
+          }
+        );
+    })
+  }
+
+  requestGPSPermission(resolve, reject) {
+    this.locationAccuracy.canRequest()
+      .then((canRequest: boolean) => {
+        if (canRequest) {
+          //Show 'GPS Permission Request' dialogue
+          this.locationAccuracy.request(this.locationAccuracy.REQUEST_PRIORITY_HIGH_ACCURACY)
+            .then(async (response) => {
+                console.log("this.locationAccuracy.request(this.locationAccuracy.REQUEST_PRIORITY_HIGH_ACCURACY)", response);
+                // call method to turn on GPS
+                let options = {
+                  maximumAge: 10000,
+                  timeout: 30000,
+                  enableHighAccuracy: true
+                };
+                const current = await this.geolocation.getCurrentPosition(options);
+                resolve(current)
+              }, (error) => {
+                console.log(error);
+                //Show alert if user click on 'No Thanks'
+              if (error.code == 4)
+                this.notification.presentAlert(
+                  'Por favor, verifique que el servicio de ubicación de su teléfono esté encendido. Permita que Offiboy acceda a los servicios de ubicación de google para activar la ubicación de su dispositivo.',
+                  '',
+                  'Permiso denegado'
+                )
+                reject(error)
+              }
+            );
+        } else {
+          console.log(canRequest);
+
+          this.notification.presentAlert(
+            'Verifique que tenga los servicios de ubicación estén encendidios, tenga los permisos para acceder a su ubicación',
+            'Permiso denegado',
+            'Offiboy',
+          )
+          reject(null)
+        }
+      });
+  }
+
+  getCurrentPositionNoPermission() {
     let options = {
       maximumAge: 10000,
       timeout: 30000,
@@ -151,26 +223,17 @@ export class GoogleMapsService {
     };
     return this.geolocation.getCurrentPosition(options);
 
-    /*this.geolocation.getCurrentPosition().then((resp) => {
-      this.latitude = resp.coords.latitude;
-      this.longitude = resp.coords.longitude;
-      console.log(this.latitude+","+this.longitude);
-      this.loadMap(resp.coords.latitude,resp.coords.longitude);
-    }).catch((error) => {
-      console.log('Error getting location', error);
-    });*/
   }
 
   getGeocoder(prop?) {
     this.geocoder.geocode({
       'latLng': new google.maps.LatLng(prop?.latitude || this.latitude, prop?.longitude || this.longitude)
-    }, function (results, status) {
-      const self = this;
+    }, (results, status) => {
       if (status === google.maps.GeocoderStatus.OK) {
         if (results[1]) {
-          self.google_address = results[1].formatted_address;
-          if (prop) prop.displayRoute = self.google_address;
-          console.log("result", results[1]);
+          this.google_address = results[1]?.formatted_address || "";
+          if (prop) prop.displayRoute = this.google_address;
+          console.log("result", results);
         } else {
           console.log('No results found');
         }

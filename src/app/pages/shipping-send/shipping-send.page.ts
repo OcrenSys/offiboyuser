@@ -48,10 +48,10 @@ export class ShippingSendPage implements OnInit {
         width: 1200,
       }
       this.background = this.googleMapsService.setStaticMap(data)
-      this.settingForm();
+      // this.settingForm();
     }
   }
-
+/*
   settingForm() {
     this.form = new FormGroup({
       client: new FormControl('', Validators.required),
@@ -73,7 +73,7 @@ export class ShippingSendPage implements OnInit {
       crated_at: new FormControl(moment()),
       updated_at: new FormControl(moment()),
     })
-  }
+  }*/
 
   continue() {
     console.log(this.form.value);

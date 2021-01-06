@@ -28,8 +28,9 @@
 
 :root {
   --white: #fff;
-  --secondary: rgb(228, 52, 33);
-  --secondary-light: rgb(234, 105, 30);
+  --secondary: rgb(234, 105, 30);
+  //--secondary: rgb(228, 52, 33);
+  --secondary-light: rgba(234, 105, 30, 0.5);
   --primary: rgb(22, 40, 131);
   --primary-light: rgba(22, 40, 131, .9);
   --transparent: rgba(0, 0, 0, 0);
@@ -445,7 +446,7 @@ ion-header {
       --padding-top: 0 !important;
       --padding-bottom: 0px !important;
       color: var(--text-black);
-      --placeholder-color: var(--text-light) !important;
+      --placeholder-color: var(--text-black) !important;
       --placeholder-opacity: .5;
       --placeholder-font-weight: 500 !important;
       flex: unset !important;

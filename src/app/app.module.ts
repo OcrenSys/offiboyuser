@@ -20,6 +20,8 @@ import {environment} from "../environments/environment";
 import {IonicStorageModule} from "@ionic/storage";
 import {NativeGeocoder} from '@ionic-native/native-geocoder/ngx';
 import {Geolocation} from '@ionic-native/geolocation/ngx';
+import {AndroidPermissions} from '@ionic-native/android-permissions/ngx';
+import { LocationAccuracy } from '@ionic-native/location-accuracy/ngx'
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -51,6 +53,9 @@ export function HttpLoaderFactory(http: HttpClient) {
     SplashScreen,
     Geolocation,
     NativeGeocoder,
+    AndroidPermissions,
+    LocationAccuracy,
+    Location,
     {provide: APP_CONFIG, useValue: BaseAppConfig},
     {provide: RouteReuseStrategy, useClass: IonicRouteStrategy}
   ],

@@ -1,32 +1,30 @@
-<ion-header class="bg-transparent">
+<ion-header>
     <ion-toolbar>
         <ion-buttons slot="start">
             <ion-back-button text="" icon="chevron-back-sharp"></ion-back-button>
         </ion-buttons>
-        <ion-title></ion-title>
+        <ion-title>
+            <div class="d-flex">Resumen de entrega</div>
+        </ion-title>
     </ion-toolbar>
 </ion-header>
 
+<ion-content>
+    <div #mapInfo id="mapInfo" class="map-medium-height" [hidden]="hideMap"></div>
 
-<ion-content fullscreen>
-    <div #mapInfo id="mapInfo" class="map-medium-height" [hidden]="hideMap">
-    </div>
-</ion-content>
-
-<ion-footer style="top: 25vh" class="ion-no-border">
-    <ion-card>
+    <ion-card class="info">
         <div class="card_header">
-            <div class="info d-flex">
+            <!--<div class="info d-flex">
                 <div class="img_box center_img">
                     <img src="assets/imgs/truck1.png" class="crop_img">
                 </div>
                 <div class="truck_details">
-                    <h2 class="d-flex">
+                    &lt;!&ndash;<h2 class="d-flex">
                         Resumen de entrega<span class="end">Envío</span>
                     </h2>
-                    <h3>{{googleMapsService.displayRoute.directionsDisplay || ""}}</h3>
+                    <h3>{{googleMapsService.displayRoute.directionsDisplay || ""}}</h3>&ndash;&gt;
                 </div>
-            </div>
+            </div>-->
             <ion-segment mode="md" lines="none" [(ngModel)]="truck_info">
                 <ion-segment-button value="about_trip" text-start>
                     {{'Detalle'}}
@@ -38,20 +36,6 @@
         </div>
         <div class="tab_container" [ngSwitch]="truck_info">
             <ion-list lines="none" *ngSwitchCase="'about_trip'">
-                <ion-item>
-                    <div class="item_inner">
-                        <ion-row>
-                            <ion-col size="7">
-                                <h3>{{'Distancia'}}</h3>
-                                <h4>{{googleMapsService.displayRoute.distance}}</h4>
-                            </ion-col>
-                            <ion-col size="5">
-                                <h3>{{'Tiempo Aproximado'}}</h3>
-                                <h4>{{googleMapsService.displayRoute.time}}</h4>
-                            </ion-col>
-                        </ion-row>
-                    </div>
-                </ion-item>
                 <div class="trip_info">
                     <ion-item class="trip_start">
                         <div class="item_inner d-flex">
@@ -82,7 +66,6 @@
                     </ion-item>
                 </div>
             </ion-list>
-
 
             <ion-list lines="none" *ngSwitchCase="'vehicle_info'">
                 <ion-item>
@@ -142,6 +125,48 @@
         </div>
     </ion-card>
 
-    <ion-button size="large" shape="round" class="btn" (click)="continue()">{{'continue' | translate}}</ion-button>
+    <form [formGroup]="form" class="info other_info">
+        <ion-list lines="none">
+            <ion-item lines="none">
+                <ion-label position="stacked">{{'Nombre del destinatario'}}</ion-label>
+                <ion-input type="text" formControlName="client"></ion-input>
+            </ion-item>
+            <ion-item lines="none">
+                <ion-label position="stacked">{{'Tipo de paquete'}}</ion-label>
+                <ion-select mode="ios" interface="popover" formControlName="type">
+                    <ion-select-option value="Sobre">Sobre</ion-select-option>
+                    <ion-select-option value="Paquete de caja">Paquete de caja</ion-select-option>
+                    <ion-select-option value="Otro">Otro</ion-select-option>
+                </ion-select>
+            </ion-item>
+            <ion-row>
+                <ion-col size="3">
+                    <ion-item lines="none">
+                        <ion-label position="stacked">{{'País'}}</ion-label>
+                        <ion-select class="border-botom" interface="popover" formControlName="type">
+                            <ion-select-option value="+505">{{'Nicaragua'}}</ion-select-option>
+                            <ion-select-option value="+593">{{'Ecuador'}}</ion-select-option>
+                        </ion-select>
+                    </ion-item>
+                </ion-col>
+                <ion-col size="9">
+                    <ion-item lines="none">
+                        <ion-label position="stacked">{{'Teléfono del destinatario'}}</ion-label>
+                        <ion-input type="number" formControlName="phone_destination"></ion-input>
+                    </ion-item>
+                </ion-col>
+            </ion-row>
+            <ion-item lines="none">
+                <ion-label position="stacked">{{'Descripción del paquete'}}</ion-label>
+                <ion-textarea rows="4" type="text" formControlName="content"></ion-textarea>
+            </ion-item>
+        </ion-list>
+    </form>
+</ion-content>
+
+<ion-footer class="ion-no-border">
+    <ion-button size="large" shape="round" class="btn" (click)="continue()">
+        {{'continue' | translate}}
+    </ion-button>
 </ion-footer>
 
