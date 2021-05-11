@@ -149,29 +149,33 @@ export class GoogleMapsService {
   }
 
   getCurrentPosition() {
-    return new Promise((resolve, reject): any => {
-      this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.ACCESS_COARSE_LOCATION)
-        .then(async result => {
-            console.log("checkGPSPermission:", result);
-            if (result.hasPermission) {
-              this.requestGPSPermission(resolve, reject);
-            } else {
-              this.notification.presentToast(
-                `Para acceder a la ubicación del dispositivo debe conceder los permisos de Ubicación.`,
-                3000
+    if (this.platform.is('cordova')) {
+      return new Promise((resolve, reject): any => {
+        this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.ACCESS_COARSE_LOCATION)
+          .then(async result => {
+              console.log("checkGPSPermission:", result);
+              if (result.hasPermission) {
+                this.requestGPSPermission(resolve, reject);
+              } else {
+                this.notification.presentToast(
+                  `Para acceder a la ubicación del dispositivo debe conceder los permisos de Ubicación.`,
+                  3000
+                )
+              }
+            }, (error) => {
+              console.log(error);
+              this.notification.presentAlert(
+                `Para acceder a la ubicación del dispositivo debe conceder los permisos de Ubicación. <br> Por favor verífquelos y vuelva a intentarlo`,
+                'Permiso denegado',
+                'Offiboy',
               )
+              // reject(error)
             }
-          }, (error) => {
-            console.log(error);
-          this.notification.presentAlert(
-            `Para acceder a la ubicación del dispositivo debe conceder los permisos de Ubicación. <br> Por favor verífquelos y vuelva a intentarlo`,
-            'Permiso denegado',
-            'Offiboy',
-          )
-            // reject(error)
-          }
-        );
-    })
+          );
+      })
+    } else {
+      return this.getCurrentPositionNoPermission()
+    }
   }
 
   requestGPSPermission(resolve, reject) {
@@ -193,12 +197,12 @@ export class GoogleMapsService {
               }, (error) => {
                 console.log(error);
                 //Show alert if user click on 'No Thanks'
-              if (error.code == 4)
-                this.notification.presentAlert(
-                  'Por favor, verifique que el servicio de ubicación de su teléfono esté encendido. Permita que Offiboy acceda a los servicios de ubicación de google para activar la ubicación de su dispositivo.',
-                  '',
-                  'Permiso denegado'
-                )
+                if (error.code == 4)
+                  this.notification.presentAlert(
+                    'Por favor, verifique que el servicio de ubicación de su teléfono esté encendido. Permita que Offiboy acceda a los servicios de ubicación de google para activar la ubicación de su dispositivo.',
+                    '',
+                    'Permiso denegado'
+                  )
                 reject(error)
               }
             );

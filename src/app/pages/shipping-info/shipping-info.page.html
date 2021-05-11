@@ -4,7 +4,9 @@
             <ion-back-button text="" icon="chevron-back-sharp"></ion-back-button>
         </ion-buttons>
         <ion-title>
-            <div class="d-flex">Resumen de entrega</div>
+            <div class="tab_btn_select ion-text-center">
+                Resumen de entrega
+            </div>
         </ion-title>
     </ion-toolbar>
 </ion-header>
@@ -29,9 +31,9 @@
                 <ion-segment-button value="about_trip" text-start>
                     {{'Detalle'}}
                 </ion-segment-button>
-                <ion-segment-button value="vehicle_info" text-start>
+                <!--<ion-segment-button value="vehicle_info" text-start>
                     {{'Vehículo'}}
-                </ion-segment-button>
+                </ion-segment-button>-->
             </ion-segment>
         </div>
         <div class="tab_container" [ngSwitch]="truck_info">
@@ -67,78 +69,85 @@
                 </div>
             </ion-list>
 
-            <ion-list lines="none" *ngSwitchCase="'vehicle_info'">
-                <ion-item>
-                    <div class="item_inner">
-                        <ion-row>
-                            <ion-col size="7">
-                                <h3>{{'vehicle_model' | translate}}</h3>
-                                <h4>SCANIA R730</h4>
-                            </ion-col>
-                            <ion-col size="5">
-                                <h3>{{'vehicle_number' | translate}}</h3>
-                                <h4>GTY 1024</h4>
-                            </ion-col>
-                        </ion-row>
-                    </div>
-                </ion-item>
-                <ion-item>
-                    <div class="item_inner">
-                        <ion-row>
-                            <ion-col size="7">
-                                <h3>{{'max_load_capavity' | translate}}</h3>
-                                <h4>16.2 tonnes</h4>
-                            </ion-col>
-                            <ion-col size="5">
-                                <h3><strong>{{'edit_vehicle_info' | translate}}</strong></h3>
-                            </ion-col>
-                        </ion-row>
-                    </div>
-                </ion-item>
-                <ion-item>
-                    <div class="item_inner">
-                        <ion-row>
-                            <ion-col size="10">
-                                <h3>{{'driver' | translate}}</h3>
-                                <h4>George Jackson (+1 987 654 3210)</h4>
-                            </ion-col>
-                            <ion-col size="2" class="d-flex">
-                                <ion-icon class="zmdi zmdi-phone end"></ion-icon>
-                            </ion-col>
-                        </ion-row>
-                    </div>
-                </ion-item>
-                <ion-item>
-                    <div class="item_inner">
-                        <ion-row>
-                            <ion-col size="10">
-                                <h3>{{'helper' | translate}}</h3>
-                                <h4>Tonny Willamson (+1 987 654 3210)</h4>
-                            </ion-col>
-                            <ion-col size="2" class="d-flex">
-                                <ion-icon class="zmdi zmdi-phone end"></ion-icon>
-                            </ion-col>
-                        </ion-row>
-                    </div>
-                </ion-item>
-            </ion-list>
+            <!-- <ion-list lines="none" *ngSwitchCase="'vehicle_info'">
+                 <ion-item>
+                     <div class="item_inner">
+                         <ion-row>
+                             <ion-col size="7">
+                                 <h3>{{'vehicle_model' | translate}}</h3>
+                                 <h4>SCANIA R730</h4>
+                             </ion-col>
+                             <ion-col size="5">
+                                 <h3>{{'vehicle_number' | translate}}</h3>
+                                 <h4>GTY 1024</h4>
+                             </ion-col>
+                         </ion-row>
+                     </div>
+                 </ion-item>
+                 <ion-item>
+                     <div class="item_inner">
+                         <ion-row>
+                             <ion-col size="7">
+                                 <h3>{{'max_load_capavity' | translate}}</h3>
+                                 <h4>16.2 tonnes</h4>
+                             </ion-col>
+                             <ion-col size="5">
+                                 <h3><strong>{{'edit_vehicle_info' | translate}}</strong></h3>
+                             </ion-col>
+                         </ion-row>
+                     </div>
+                 </ion-item>
+                 <ion-item>
+                     <div class="item_inner">
+                         <ion-row>
+                             <ion-col size="10">
+                                 <h3>{{'driver' | translate}}</h3>
+                                 <h4>George Jackson (+1 987 654 3210)</h4>
+                             </ion-col>
+                             <ion-col size="2" class="d-flex">
+                                 <ion-icon class="zmdi zmdi-phone end"></ion-icon>
+                             </ion-col>
+                         </ion-row>
+                     </div>
+                 </ion-item>
+                 <ion-item>
+                     <div class="item_inner">
+                         <ion-row>
+                             <ion-col size="10">
+                                 <h3>{{'helper' | translate}}</h3>
+                                 <h4>Tonny Willamson (+1 987 654 3210)</h4>
+                             </ion-col>
+                             <ion-col size="2" class="d-flex">
+                                 <ion-icon class="zmdi zmdi-phone end"></ion-icon>
+                             </ion-col>
+                         </ion-row>
+                     </div>
+                 </ion-item>
+             </ion-list>-->
         </div>
     </ion-card>
 
     <form [formGroup]="form" class="info other_info">
         <ion-list lines="none">
+
+            <ion-item lines="none" class="ion-no-margin">
+                <div class="filter">
+                    <div class="scroll_container">
+                        <h2 class="ion-text-center" [ngClass]="sobre ? 'active' : '' "
+                            (click)="toggle('sobre')">Sobre</h2>
+                        <h2 class="ion-text-center" [ngClass]="paquete ? 'active' : '' "
+                            (click)="toggle('paquete')">Paquete de caja</h2>
+                        <h2 class="ion-text-center" [ngClass]="otro ? 'active' : '' "
+                            (click)="toggle('otro')">Otro</h2>
+                    </div>
+                </div>
+            </ion-item>
+
             <ion-item lines="none">
                 <ion-label position="stacked">{{'Nombre del destinatario'}}</ion-label>
                 <ion-input type="text" formControlName="client"></ion-input>
             </ion-item>
-            <ion-item lines="none">
-                <ion-label position="stacked">{{'Tipo de paquete'}}</ion-label>
-                <ion-select mode="ios" interface="popover" formControlName="type">
-                    <ion-select-option value="Sobre">Sobre</ion-select-option>
-                    <ion-select-option value="Paquete de caja">Paquete de caja</ion-select-option>
-                    <ion-select-option value="Otro">Otro</ion-select-option>
-                </ion-select>
-            </ion-item>
+
             <ion-row>
                 <ion-col size="3">
                     <ion-item lines="none">
@@ -156,17 +165,23 @@
                     </ion-item>
                 </ion-col>
             </ion-row>
+
             <ion-item lines="none">
                 <ion-label position="stacked">{{'Descripción del paquete'}}</ion-label>
                 <ion-textarea rows="4" type="text" formControlName="content"></ion-textarea>
             </ion-item>
+
+            <ion-item lines="none">
+                <ion-label position="stacked">{{'Modo de entrega'}}</ion-label>
+                <ion-select placeholder="Seleccionar" class="" interface="popover" formControlName="mode">
+                    <ion-select-option value="$ 8.6">{{'Económico $ 8.60'}}</ion-select-option>
+                </ion-select>
+            </ion-item>
         </ion-list>
     </form>
-</ion-content>
 
-<ion-footer class="ion-no-border">
     <ion-button size="large" shape="round" class="btn" (click)="continue()">
         {{'continue' | translate}}
     </ion-button>
-</ion-footer>
-
+    <br><br>
+</ion-content>

@@ -3,9 +3,9 @@
     <ion-buttons slot="start">
       <ion-back-button text="" icon="chevron-back-sharp"></ion-back-button>
     </ion-buttons>
-    <ion-title>
-      <div class="d-flex tab_btn">
-        <ion-searchbar class="transparent-searchbar"  placeholder=""
+    <ion-title style="padding-left: 0!important;">
+      <div class="tab_btn_select ion-text-left">
+        <ion-searchbar custom-padding class="transparent-searchbar" placeholder=""
                        [(ngModel)]="googleMapsService.google_address"
                        (ionFocus)="clear()"
                        (ionClear)="clear()"

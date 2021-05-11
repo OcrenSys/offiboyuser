@@ -9,6 +9,10 @@ import {Constants} from "./utils/Constants";
 import {MyEventsService} from "./services/MyEvents/my-events.service";
 import {AuthenticationService} from "./services/Authentication/authentication.service";
 
+import * as firebase from 'firebase';
+import 'firebase/app';
+import 'firebase/auth';
+
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -58,6 +62,9 @@ export class AppComponent implements OnInit {
       this.navCtrl.navigateRoot(['./']);
       this.globalize(value);
     });
+
+    console.log('\n\nfirebase.app().name', firebase.app().name, '\n\n');  // "[DEFAULT]"
+
   }
 
   initializeApp() {

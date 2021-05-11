@@ -4,6 +4,7 @@ ion-header ion-toolbar {
   top: 0;
   left: 0;
 }
+
 #mapInfo {
   //background: #1b85ab;
   width: 100%;
@@ -17,6 +18,7 @@ ion-header ion-toolbar {
 .map-medium-height {
   height: 30vh !important;
 }
+
 /*
 .map {
   position: absolute;
@@ -105,6 +107,7 @@ form.info {
         font-size: 1rem !important;
         line-height: normal;
         color: var(--text-light) !important;
+
       }
 
       ion-icon {
@@ -189,8 +192,8 @@ form.info {
 
 
   &.other_info {
-    margin-top: 7px;
-    padding: 17px 18px 17px 18px;
+    margin-top: 0;
+    padding: 0 18px 17px 18px;
 
     &::after {
       display: none !important;
@@ -198,10 +201,11 @@ form.info {
 
     ion-list {
       background: var(--transparent) !important;
+
       ion-item {
         border-bottom: 0 solid #ccc !important;
         padding: 0 0 7px 0;
-        margin-bottom: 30px;
+        margin-bottom: 5px;
         background: var(--transparent) !important;
         --background: var(--transparent) !important;
 
@@ -229,7 +233,7 @@ form.info {
           --padding-end: 10px !important;
           //--padding-top: 0 !important;
           //--padding-bottom: 0px !important;
-          color: var(--text-black);
+          color: var(--text-dark);
           --placeholder-color: var(--text-black) !important;
           --placeholder-opacity: .5;
           --placeholder-font-weight: 500 !important;
@@ -237,8 +241,9 @@ form.info {
           min-width: 100%;
           height: 100%;
           letter-spacing: 0;
-          border: 1px solid var(--text-light) ;
-          border-radius: 20px;
+          border: 1px solid #999999;
+          border-radius: 10px;
+          background: #9999991f;
 
           input {
             --padding: 10px;
@@ -279,9 +284,9 @@ form.info {
             font-size: 1rem !important;
             line-height: normal;
             color: var(--text-light) !important;
-
-            border: 1px solid var(--text-light);
-            border-radius: 20px;
+            background: #9999991f;
+            border-radius: 10px;
+            border: 1px solid #999999;
             padding: 10px 20px;
           }
           ion-select.border-botom {
@@ -289,6 +294,7 @@ form.info {
             border-radius: 0 !important;
             border-bottom: 1px solid var(--text-light);
             padding: 0;
+            background: transparent !important;
           }
         }
       }
@@ -401,7 +407,7 @@ ion-card.info {
       padding: 0;
       background: none;
       align-items: flex-start;
-      padding: 0px 0px 27px 0px;
+      padding: 0px 0px 15px 0px;
       position: relative;
       --background: var(--transparent);
       --inner-padding-end: 0px;
@@ -537,6 +543,7 @@ ion-card.info {
     }
   }
 }
+
 ion-footer {
   position: absolute;
   bottom: 0;
